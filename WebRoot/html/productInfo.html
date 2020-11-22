@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- 页面meta -->
+    <meta charset="utf-8">
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <!-- 引入组件库 -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <!-- 引入组件库 -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="../js/jquery-2.1.1.min.js"></script>
+    <script src="https://cdn.bootcss.com/qs/6.7.0/qs.min.js"></script>
+<!--    <script src="https://unpkg.com/http-vue-loader"></script>-->
+
+    <script src="../js/plugins/zTree/jquery.ztree.all-3.5.min.js"></script>
+    <link rel="stylesheet" href="../js/plugins/zTree/css/metro.css ">
+    <link rel="stylesheet" href="../js/plugins/zTree/css/metro.css">
+    <link rel="stylesheet" href="../css/productInfo.css?v=7">
+</head>
+<style>
+    .upload-demo {
+        display: inline;
+    }
+
+    .el-upload-list {
+        display: flex;
+    }
+
+    .el-row {
+        margin-bottom: 20px;
+    }
+
+    :last-child {
+        margin-bottom: 0;
+    }
+
+    .el-col {
+        border-radius: 4px;
+    }
+
+    .bg-purple-dark {
+        background: #99a9bf;
+    }
+
+    .bg-purple {
+        background: #d3dce6;
+    }
+
+    .bg-purple-light {
+        background: #e5e9f2;
+    }
+
+    .grid-content {
+        border-radius: 4px;
+        min-height: 140px;
+    }
+
+    .row-bg {
+        padding: 10px 0;
+        background-color: #f9fafc;
+    }
+
+    [v-cloak] {
+        display: none !important;
+    }
+</style>
+<!-- =============>商品库管理页面-->
+<body style="background-color: white">
+<div id="app" v-cloak>
+    <el-container>
+
+        <el-header style="height: auto">
+            <div class="head">
+                <div class="headerDiv">
+                    <img src="../img/search.png" style="width: 30px;height: 30px;margin: -6px auto;">
+                    <span style="font-family: STXingkai;">筛选查询</span>
+                    <el-button type="primary" style="float: right;margin: 5px 10px auto;width: 152px"
+                               icon="el-icon-refresh-left"
+                               @click="refish()">刷新
+                    </el-button>
+                    <el-button type="primary" style="float: right;margin: 5px 10px auto;" icon="el-icon-circle-plus"
+                               @click="addModel()">新增商品模型
+                    </el-button>
+                </div>
+                <el-drawer :visible.sync="drawers" size="80%">
+                    <el-steps :active="1" finish-status="success" simple>
+                        <el-step title="1、选择商品分类"></el-step>
+                        <el-step title="2、填写商品信息"></el-step>
+                        <el-step title="3、填写属性提交模型"></el-step>
+                    </el-steps>
+                    <div>
+                        <el-container>
+                            <el-aside width="200px" style="line-height: 418px">
+                                <img src="../img/chooseKind.png"
+                                     style="width: 189px;margin-left: 10px;margin-top: 230px">
+                            </el-aside>
+                            <el-main>
+                                <div style="line-height: 30px;margin-left: 100px">
+                                    最近使用的商品分类:
+                                    <el-select v-model="Kindvalues" filterable placeholder="点击查看"
+                                               @change="selectValueChange" style="width: 350px">
+                                        <el-option
+                                                v-for="item in Kindvalue"
+                                                :label="`${item.label}`"
+                                                :label="item.label"
+                                                :key="item.value"
+                                                :value="item">
+                                        </el-option>
+                                    </el-select>
+                                    <br>
+                                    <span style="color: grey;margin-top: 20px;margin-left: 20px">请按顺序依次选择，分类不可为空</span>
+                                </div>
+
+                                <div style="display: inline-block;margin-top: 20px;padding-left: 10px">
+                                    <el-card class="box-card" style="float: left;width: auto">
+                                        <div slot="header" class="clearfix">
+                                            <span>选择一级分类</span>
+                                        </div>
+                                        <div v-for="(item,index) in itemMenus" :key="index" class="text item">
+                                            <li @click="selectMenu(item,index)" :class="{active:index==current}">
+                                                {{item.mmtName}}
+                                            </li>
+                                        </div>
+                                    </el-card>
+                                    <img src="../img/jiantou4.png"
+                                         style="float: left;width: 94px;height: 89px;margin-top: 130px">
+                                    <el-card class="box-card" style="float: left;margin-left: 10px;width: auto">
+                                        <div slot="header" class="clearfix">
+                                            <span>选择二级分类</span>
+                                        </div>
+                                        <div v-for="(item,index) in itemMenusToo" :key="index" class="text item"
+                                             style="cursor: pointer">
+                                            <a @click="selectMenuToo(item,index)" :class="{active:index==current1}">
+                                                {{item.mmtName}}
+                                            </a>
+                                        </div>
+                                    </el-card>
+                                    <img src="../img/jiantou4.png"
+                                         style="float: left;width: 94px;height: 89px;margin-top: 130px"
+                                         v-if="p_showToo">
+                                    <el-card class="box-card" style="float: left;margin-left: 10px;width: auto" v-if="p_showToo">
+                                        <div slot="header" class="clearfix">
+                                            <span style="color: #66b1ff;text-align: center">选择三级分类</span>
+                                        </div>
+                                        <div v-for="(item,index) in itemMenusThree" :key="index" class="text item"
+                                             style="cursor: pointer">
+                                            <a @click="selectMenuThree(item,index)" :class="{active:index==current2}">
+                                                {{item.mmtName}}
+                                            </a>
+                                        </div>
+                                    </el-card>
+                                </div>
+                                <div style="margin-top: 20px">
+                                    <el-row>
+                                        <el-col :span="24">
+                                            <div>
+                                                您当前选择的分类是：<span
+                                                    style="color: red">{{this.showData + "/"}}{{this.showDataToo + "/"}}&nbsp; {{this.showDataThree}}</span>
+                                            </div>
+                                        </el-col>
+                                    </el-row>
+                                </div>
+                                <div style="margin-top: 20px;margin-left: 200px">
+                                    <el-button type="primary" @click="nextStep(1)" style="width: 181.68px">返回
+                                    </el-button>
+                                    <el-button type="primary" @click="nextStep(2)">下一步,填写商品属性</el-button>
+                                </div>
+                            </el-main>
+
+                        </el-container>
+                    </div>
+                </el-drawer>
+                <!-- ===========>>>>>>>第二步填写商品信息-->
+                <el-drawer :visible.sync="drawer2" size="90%" :before-close="handledrawer2Close" v-loading="loading" element-loading-text="正在保存，请稍后">
+                    <el-steps :active="2" finish-status="success" simple style="margin-top: -15px">
+                        <el-step title="1、选择商品分类"></el-step>
+                        <el-step title="2、填写商品信息"></el-step>
+                        <el-step title="3、填写属性提交模型"></el-step>
+                    </el-steps>
+                    <el-container>
+                        <el-aside width="200px">
+                            <img src="../img/chooseKind-04.png" style="width: 189px;margin-left: 10px;margin-top: 20px">
+                            <img src="../img/chooseKind-05.png"
+                                 style="width: 189px;margin-left: 10px;margin-top: 300px;height: 50px">
+                        </el-aside>
+                        <el-main>
+                            <div>
+                                <div>
+                                    <el-row>
+                                        <el-col :span="24">
+                                            <div>
+                                                <span style="color: red">*</span>商品分类：<span
+                                                    style="color: red;margin-left: 10px">{{showData + "/"}}{{showDataToo + "/"}}{{showDataThree}}</span>
+                                                <el-button type="text"
+                                                           @click="nextStep(7)" icon="el-icon-edit">编辑分类
+                                                </el-button>
+                                            </div>
+                                        </el-col>
+                                    </el-row>
+                                </div>
+                                <div>
+                                    <el-row>
+                                        <el-col :span="12">
+                                            <div>
+                                                <span style="color: red">*</span>商品通用名称
+                                                <el-input placeholder="商品出厂名称(30字以内)" style="width: 350px"
+                                                          v-model="editInfo.connonName" maxlength="30"
+                                                          show-word-limit></el-input>
+                                            </div>
+                                        </el-col>
+                                        <el-col :span="12">
+                                            <div>
+                                                <span style="color: red">*</span>商品副标题
+                                                <el-input placeholder="设置别名，多个则用逗号隔开，不能超过50个字" style="width: 400px;"
+                                                          v-model="editInfo.subTitle" maxlength="50"
+                                                          show-word-limit></el-input>
+                                            </div>
+                                        </el-col>
+                                    </el-row>
+                                    <el-row style="margin-bottom: 15px">
+                                        <el-col :span="12">
+                                            <div>
+                                                <span style="color: red">*</span>商品介绍
+                                                <el-input type="textarea" :rows="4"
+                                                          placeholder="不可为空5-300字以内，商品介绍也可以作为供应商发布商品关键字搜索引擎"
+                                                          style="width: 350px;"
+                                                          v-model="editInfo.introduction" maxlength="300"
+                                                          minlength="5"
+                                                          show-word-limit></el-input>
+                                            </div>
+                                        </el-col>
+                                        <el-col :span="12">
+                                            <div>
+                                                <span style="color: red">*</span>商品编号
+                                                <el-input readonly
+                                                          style="width: 400px;margin-left: 16px"
+                                                          v-model="editInfo.productNum" maxlength="30"
+                                                          show-word-limit></el-input>
+                                            </div>
+                                        </el-col>
+                                    </el-row>
+                                </div>
+                                <el-divider content-position="left" style="margin-top: 20px"><span style="color: red">*上传商品图片</span>
+                                </el-divider>
+                                <div>
+                                    <el-dialog
+                                            :append-to-body="true"
+                                            title="从图库选择"
+                                            :visible.sync="dialogVisible6"
+                                            width="50%">
+                                        <div style="display: flex;justify-content: space-between;align-items: center;border-bottom: 1px dotted rgb(228, 228, 228);
+                                        padding-bottom: 10px;margin-bottom: 10px">
+                                            <div>商品图库 > {{sysFolderListlabel}}</div>
+                                            <div>
+                                                <el-select v-model="FolderList" @change="selectFolder"
+                                                           @focus="folderFocus"
+                                                           placeholder="选择图库分类">
+                                                    <el-option
+                                                            v-for="item in sysFolderList"
+                                                            :key="item.fileFolderId"
+                                                            :label="item.fileFolderName"
+                                                            :value="item.fileFolderId">
+                                                    </el-option>
+                                                </el-select>
+                                            </div>
+                                        </div>
+                                        <div style="display: flex;justify-content: flex-end;align-items: center;margin-bottom: 10px">
+                                            <el-upload
+                                                    :before-upload="beforeUpload"
+                                                    :limit="maxCheck"
+                                                    :on-success="handleAvatarSuccess"
+                                                    class="upload-demo"
+                                                    :action="actionsUrl"
+                                                    :on-preview="handlePreview"
+                                                    :on-remove="handleRemove"
+                                                    :file-list="fileList"
+                                                    list-type="picture">
+                                                <el-button size="small" type="primary">点击上传</el-button>
+                                            </el-upload>
+                                        </div>
+                                        <el-checkbox-group v-model="selectedImg" :max="maxCheck">
+                                            <el-checkbox-button v-for="(item,index) in imgs"
+
+                                                                :label="item.fileId" :value="item"
+                                                                :key="item.fileId"
+                                                                :checked="imageCheck[index]"
+                                                                @change="imgChange(value,index,item,imageCheck)">
+                                                <el-card :body-style="{ padding: '0px' }">
+                                                    <img style="width: 72px;height: 72px;" :src="item.rootPath"
+                                                         class="image">
+                                                </el-card>
+                                            </el-checkbox-button>
+                                        </el-checkbox-group>
+
+                                        <el-pagination
+                                                style="float: right"
+                                                @size-change="handleImgSizeChange"
+                                                @current-change="handleCurrentImgChange"
+                                                :current-page="currentImgPage"
+                                                :page-sizes="[10, 20, 50, 100]"
+                                                :page-size="imgPageSize"
+                                                layout="total, sizes, prev, pager, next, jumper"
+                                                :total="totalImage">
+                                        </el-pagination>
+                                        <span slot="footer" class="dialog-footer">
+                                            <el-button type="primary" @click="dialogVisible6 = false">完成</el-button>
+                                        </span>
+                                    </el-dialog>
+                                    <el-button size="small" type="primary" @click="openImgSelect">选择图片</el-button>
+                                    <el-tag
+                                            style="border-style: none;background-color: white"
+                                            v-for="(tag,index) in rootPathList"
+                                            :key="tag"
+                                            closable
+                                            :type="tag"
+                                            @close="handleCloseImage(tag,index)">
+                                        <img style="width: 72px;height: 72px" :src="tag" class="image">
+                                    </el-tag>
+                                    <!--                                    <img v-for="(item,index) in rootPathList" style="width: 72px;height: 72px" :src="item"-->
+                                    <!--                                         class="image">-->
+                                    <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb,最多6张
+                                        默认图标，至少要上传一张。用于供应商发布商品时参考商品图，也同时作为机构门诊仓管出入库及领料员使用。
+                                    </div>
+                                </div>
+                                <div style="margin-top: 10px">
+                                    <el-col :span="12">
+                                        <div>
+                                            <span style="color: red">*</span>商品关键词
+                                            <el-input type="textarea" :rows="3"
+                                                      placeholder="商品关键词清空请用空格分隔；关键词可作为站内关键词查询，也可以作为搜索引擎收录使用"
+                                                      style="width: 400px;" v-model="editInfo.productName"></el-input>
+                                        </div>
+                                    </el-col>
+                                    <el-col :span="12">
+                                        <div>
+                                            <span style="color: red">*</span>商品备注
+                                            <el-input type="textarea" :rows="3"
+                                                      placeholder="请输入内容"
+                                                      style="width: 400px;" v-model="editInfo.remark"></el-input>
+                                        </div>
+                                    </el-col>
+                                </div>
+                                <div style="line-height: 120px">
+                                    <span style="float: left">
+                                        是否显示：
+                                    </span>
+                                    <el-switch
+                                            style="margin-top: 0px"
+                                            v-model="swichOff"
+                                            active-value="1"
+                                            inactive-value="2"
+                                            active-color="#13ce66"
+                                            inactive-color="#ff4949"
+                                            active-text="开启表示商家发布商品时可以引用此模型"
+                                            inactive-text="关闭则无法引用">
+                                    </el-switch>
+                                </div>
+                            </div>
+                            <div style="margin-top: 20px;margin-left: 360px">
+                                <el-button type="primary" @click="nextStep(3)" style="width: 181.68px">上一步，选择商品分类
+                                </el-button>
+                                <el-button type="primary" @click="nextStep(4)">保存，下一步填写属性规格</el-button>
+                            </div>
+                        </el-main>
+                    </el-container>
+                </el-drawer>
+                <!-- ======================>第三步填写属性-->
+                <el-drawer :visible.sync="drawer3" size="80%":before-close="handledrawer3Close">
+                    <el-steps :active="3" finish-status="success" simple style="margin-top: -15px">
+                        <el-step title="1、选择商品分类"></el-step>
+                        <el-step title="2、填写商品信息"></el-step>
+                        <el-step title="3、填写属性提交模型"></el-step>
+                    </el-steps>
+                    <el-container>
+                        <el-aside width="200px">
+                            <img src="../img/chooseKind-06.png" style="width: 189px;margin-left: 10px;margin-top: 20px">
+                            <img src="../img/chooseKind-07.png" style="width: 189px;margin-left: 10px;margin-top: 230px">
+                        </el-aside>
+                        <el-main>
+                            <div>
+                                <el-row>
+                                    <el-col :span="24">
+                                        <div>
+                                            <span>关联属性：</span>
+                                            <el-select v-model="shuxiang" filterable placeholder="请选择"
+                                                       style="width: 250px"
+                                                       @change="((val)=>{changeAttr(val,1)})"
+                                                       @click.native="selectAttr()"
+                                                       clearable
+                                                       allow-create>
+                                                <el-option v-for="(i,index) in shuxing2" :label="i.label"
+                                                           :value="i.value" :key="index">
+                                                </el-option>
+                                            </el-select>
+                                            <el-dialog title="配置可选值" :visible.sync="dialogFormVisible6"
+                                                       :append-to-body="true" width="30%" :show-close="false">
+                                                <el-form>
+                                                    <el-form-item label="可选值列表" append-to-body>
+                                                        <el-select v-model="AttrList" placeholder="可选值列表"
+                                                                   :multiple="multiplesToo" :allow-create="allow"
+                                                                   :filterable="filterable">
+                                                            <el-option v-for="(item,index) in AttrListToo" :label="item"
+                                                                       :value="item" :key="index"></el-option>
+                                                        </el-select>
+                                                    </el-form-item>
+                                                </el-form>
+                                                <div slot="footer" class="dialog-footer">
+                                                    <el-button @click="cancel()" v-if="AttrList == ''">取 消</el-button>
+                                                    <el-button type="primary" @click="subAttr(1)">确 定</el-button>
+                                                </div>
+                                            </el-dialog>
+                                            <br/>
+                                            <el-tag
+                                                    style="margin-top: 10px"
+                                                    :key="tag"
+                                                    v-for="tag in dynamicTagses"
+                                                    closable
+                                                    :disable-transitions="false"
+                                                    @close="handleClosees(tag)">
+                                                {{tag}}
+                                            </el-tag>
+                                        </div>
+                                    </el-col>
+                                </el-row>
+                                <el-row>
+                                    <el-col :span="24">
+                                        <div>
+                                            <span><span style="color: red">*</span>商品规格：</span>
+                                            <el-input v-model="addModels.specifications" placeholder="请输入"
+                                                      style="width: 250px" maxlength="20"
+                                                      show-word-limit type="text"></el-input>
+                                            <el-button icon="el-icon-circle-plus-outline" type="text" @click="add(2)">
+                                                添加
+                                            </el-button>
+                                            <span style="color: grey;font-size: 10px">商品规格为2-20个不重复的字符之间</span>
+                                            <br/>
+                                            <el-tag
+                                                    style="margin-top: 10px"
+                                                    v-for="(tag,index) in dynamicTags"
+                                                    :key="index" closable
+                                                    :disable-transitions="false"
+                                                    @click="editTag(tag,index)"
+                                                    @close="handleClose(tag)">
+                                                <span v-if="index!=num">{{tag}}</span>
+                                                <input
+                                                        class="custom_input"
+                                                        type="text" v-model="words"
+                                                        v-if="index==num"
+                                                        ref="editInput"
+                                                        @keyup.enter="handleInput(tag,index)"
+                                                        @blur="handleInput(tag,index)">
+                                            </el-tag>
+                                            </el-input>
+                                        </div>
+                                    </el-col>
+                                </el-row>
+                                <el-row>
+                                    <el-col :span="24">
+                                        <div v-if="dynamicTagses.length !=0">
+                                            <span>能否进行检索:</span>
+                                            <el-radio v-model="addModels.retrieval" label="1">需要检索</el-radio>
+                                            <el-radio v-model="addModels.retrieval" label="2">不需要检索</el-radio>
+                                            <div style="display: inline;font-size: 12px;color: #999999">
+                                                不需要该属性成为检索商品条件的情况请选择不需要检索，需要该属性进行关键字检索商品时选择关键字检索。
+                                            </div>
+                                        </div>
+                                    </el-col>
+                                </el-row>
+
+                                <el-row style="margin-top: 150px">
+                                    <el-col :span="12">
+                                        <div>
+                                            <span>选择品牌:</span>
+                                            <el-select v-model="brandListMosel" placeholder="请选择" filterable
+                                                       clearable
+                                                       :loading="brandloading"
+                                                       loading-text="加载中"
+
+                                                       @click.native="selectBrand()">
+                                                <el-option
+                                                        v-for="item in brandList"
+                                                        :key="item.mbaCode"
+                                                        :label="item.mbdName"
+                                                        :value="item.mbaCode">
+                                                </el-option>
+                                            </el-select>
+                                        </div>
+                                    </el-col>
+                                    <el-col :span="12">
+                                        <div>
+                                            <span><span style="color: red">*</span>销售单位:</span>
+<!--                                            <el-select v-model="sellUint" placeholder="请选择" @click.native="selectUint()">-->
+<!--                                                <el-option-->
+<!--                                                        v-for="item in uintList"-->
+<!--                                                        :key="item.value"-->
+<!--                                                        :label="item.label"-->
+<!--                                                        :value="item.value">-->
+<!--                                                </el-option>-->
+<!--                                            </el-select>-->
+                                            <el-input v-model="sellUint" placeholder="请输入内容"
+                                                      style="width: 250px"></el-input>
+                                        </div>
+                                    </el-col>
+                                </el-row>
+
+                                <el-row>
+
+
+                                    <el-button icon="el-icon-setting" @click="morePara()" round style="color: #0e9aef">
+                                        配置更多参数
+                                    </el-button>
+                                    <br>
+                                    <span style="color: grey;margin-top: 10px;font-size: 10px">请按配置顺序依次选择(如果选项为空请点击空选项)：</span><br/>
+                                    <el-col :span="24" style="display: flex;flex-wrap:wrap;justify-content: inherit">
+                                        <div v-for="(item,index) in selectItem"
+                                             style="margin-top: 10px;margin-left: 10px">
+                                            <span style="color: red" v-if="item.isRequired == 1">*</span>
+                                            <span>{{item.name + ":"}}</span>
+                                            <el-select v-model="bangding1[index]" filterable placeholder="请下拉选择或手动创建"
+                                                       no-data-text="请手动录入参数"
+                                                       ref="editInputs"
+                                                       :multiple="item.state"
+                                                       :clearable="item.clearable"
+                                                       @focus="((val)=>{changeStatusToo(val, index)})"
+                                                       @change="((val)=>{changeStatus(val, index)})"
+                                                       :allow-create="item.create">
+                                                <el-option v-for="i in item.value" :label="i" :value="i">
+                                                </el-option>
+                                            </el-select>
+
+                                        </div>
+                                    </el-col>
+                                </el-row>
+                                <el-row>
+                                    <el-col :span="24">
+                                        <div>
+                                            <el-dialog
+                                                    :append-to-body="true"
+                                                    title="更多参数信息"
+                                                    :visible.sync="dialogVisible3"
+                                                    width="50%">
+                                                <el-table
+                                                        :data="gridDatas2.filter(data => !searchs || data.mmpName.toLowerCase().includes(searchs.toLowerCase()))"
+                                                        max-height="400"
+
+                                                        ref="multipleTables">
+                                                    <el-table-column  type="selection" width="55" align="center" @selection-change="handleSelectionChanges"></el-table-column>
+                                                    <el-table-column property="mmpName" label="值列表" align="center" sortable></el-table-column>
+                                                    <el-table-column prop="optionaValue" label="可选值列表" align="center">
+                                                    </el-table-column>
+                                                    <el-table-column label="操作" align="center">
+                                                        <template slot="header" slot-scope="scope">
+                                                            <el-input v-model="searchs" size="mini" placeholder="输入关键字搜索"/>
+                                                        </template>
+                                                        <template slot-scope="scope">
+                                                            <el-button @click="handleCanshu(scope.row,scope.$index)"
+                                                                       type="text"
+                                                                       size="small">配置参数
+                                                            </el-button>
+                                                        </template>
+                                                    </el-table-column>
+                                                </el-table>
+                                                <span slot="footer" class="dialog-footer">
+                                                    <el-button type="primary"
+                                                               @click="dialogVisible3 = false">完成</el-button>
+                                                </span>
+                                            </el-dialog>
+
+                                        </div>
+                                    </el-col>
+                                </el-row>
+                                <el-button type="primary" @click="nextStep(5)">上一步,填写商品模型</el-button>
+                                <el-button type="primary" @click="nextStep(6)" :disabled="lastStepBtn">完成，提交商品模型</el-button>
+                            </div>
+                        </el-main>
+                    </el-container>
+                </el-drawer>
+
+                <div class="headerDiv2">
+                    <el-form :inline="true" :model="queryFrom" class="demo-form-inline">
+                        <el-form-item label="输入搜索">
+                            <el-input placeholder="商品名称/商品编号" v-model="queryFrom.paraName"
+                                      @keydown.enter.native="selectQuery()" style="width: auto"></el-input>
+                        </el-form-item>
+                        <el-form-item label="品牌:">
+                            <el-select v-model="queryFrom.paraSearch" filterable multiple placeholder="请选择" style="width: auto">
+                                <el-option
+                                        v-for="(item,index) in restaurants"
+                                        :key="index"
+                                        :label="item.brand"
+                                        :value="item.mbdId">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                        <el-form-item label="状态:">
+                            <el-select placeholder="请选择" v-model="queryFrom.paraRelated"
+                                       @keydown.enter.native="selectQuery()" style="width: auto">
+                                <el-option
+                                        v-for="item in options"
+                                        :key="item.value"
+                                        :label="item.label"
+                                        :value="item.value">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                        <el-form-item>
+                            <el-button type="primary" icon="el-icon-search" plain round @click="selectQuery()">查询结果</el-button>
+                        </el-form-item>
+                    </el-form>
+                </div>
+            </div>
+        </el-header>
+        <el-container>
+            <el-aside width="200px">
+                <div style="margin-top: 20px">
+                    <div style="padding-top: 1px">
+                        <img src="../img/22222-12.png" style="width: 198px;height: 49px;">
+                        <!--                        <span icon="el-icon-refresh-left">商品分类</span>-->
+                        <el-divider style="margin: 0px"></el-divider>
+                    </div>
+                    <div>
+                        <ul id="tree" class="ztree" style="overflow:auto;"></ul>
+                    </div>
+                </div>
+            </el-aside>
+            <el-main style="padding-left: 0px">
+                <div class="headerDiv" style="background-color: #f4f4f4;">
+                    <span style="margin-left: 10px;font-size: 17px">数据列表</span>
+                    <el-button type="danger" style="margin-left: 20px" @click="deleteAll()">批量删除</el-button>
+                    <el-button type="primary" style="margin-left: 20px" @click="export_all()">导出excel</el-button>
+                </div>
+                <el-table
+                        v-loading="tableLoading"
+                        element-loading-text="拼命加载中"
+                        @selection-change="handleSelectionChange"
+                        :data="tableData" border style="width: auto;overflow:hidden;"
+                        ref="multipleTable">
+                    <el-table-column type="selection" align="center"></el-table-column>
+                    <el-table-column prop="modelMatCode" label="商品编号"  align="center"
+                                     sortable></el-table-column>
+                    <el-table-column prop="rootPath" label="商品图标"  align="center">
+                        <template slot-scope="scope">
+                            <el-avatar shape="square" :size="50" fit="fit" :src="scope.row.rootPath"></el-avatar>
+                        </template>
+                    </el-table-column>
+                    <el-table-column prop="modelMatName" label="商品通用名称" align="center"></el-table-column>
+                    <el-table-column prop="mbdName" label="品牌" align="center"></el-table-column>
+                    <el-table-column prop="" label="规格修改" align="center">
+                        <template slot-scope="scope">
+                            <el-button type="primary" icon="el-icon-edit" circle align="center"
+                                       @click="editg(scope.row)"></el-button>
+                        </template>
+                    </el-table-column>
+                    <el-table-column prop="state" label="模型状态" :formatter="stateFormat"
+                                     align="center"></el-table-column>
+                    <el-table-column prop="refCount" label="被发布数量" align="center"></el-table-column>
+                    <el-table-column prop="" label="日志" align="center">
+                        <template slot-scope="scope">
+                            <el-button type="info" icon="el-icon-message" circle
+                                       @click="openLog(scope.row.wmsModelId)"></el-button>
+                        </template>
+                    </el-table-column>
+                    <el-table-column prop="" label="操作" align="center">
+                        <template slot-scope="scope">
+                            <el-button
+                                    @click.native.prevent="editRow(scope.row,1)"
+                                    type="text"
+                                    size="small">
+                                查看
+                            </el-button>
+                            <el-button
+                                    @click.native.prevent="editRow(scope.row,2)"
+                                    type="text"
+                                    size="small">
+                                编辑
+                            </el-button>
+                            <el-switch
+                                    @change="switchChange(scope.row)"
+                                    v-model="scope.row.state"
+                                    active-value="1"
+                                    inactive-value="2"
+                                    active-color="#13ce66"
+                                    inactive-color="#ff4949">
+                            </el-switch>
+                        </template>
+                    </el-table-column>
+                </el-table>
+
+                <el-pagination
+                        style="float: right"
+                        @size-change="handleSizeChange"
+                        @current-change="handleCurrentChange"
+                        :current-page="currentPage"
+                        :page-sizes="[10, 20, 50, 100]"
+                        :page-size="pageSize"
+                        layout="total, sizes, prev, pager, next, jumper"
+                        :total="total">
+                </el-pagination>
+
+                <el-dialog
+                        title="查看日志"
+                        :visible.sync="dialogVisible"
+                        width="50%">
+                    <el-table :data="gridData" max-height="350">
+                        <el-table-column property="createDate" label="时间" align="center"></el-table-column>
+                        <el-table-column property="operateUser" label="人员" align="center"></el-table-column>
+                        <el-table-column property="operateName" label="操作内容" align="center"></el-table-column>
+                    </el-table>
+
+                    <el-pagination
+                            style="float: right"
+                            @size-change="handleSizeChanges"
+                            @current-change="handleCurrentChanges"
+                            :current-page="currentPages"
+                            :page-sizes="[10, 20, 50, 100]"
+                            :page-size="pageSizes"
+                            layout="total, sizes, prev, pager, next, jumper"
+                            :total="totals">
+                    </el-pagination>
+
+                    <span slot="footer" class="dialog-footer">
+                        <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+                    </span>
+                </el-dialog>
+                <el-dialog
+                        title="规格修改"
+                        :visible.sync="dialogVisible2"
+                        width="30%">
+                    <div>
+                        <!--规格修改下拉列表 -->
+                        <span>关联属性：</span>
+                        <el-select v-model="shuxiangs"  placeholder="请选择" style="width: 250px"
+                                   @change="((val)=>{changeAttr(val,2)})" @click.native="selectAttr()" clearable>
+                            <el-option v-for="i in shuxing2s" :label="i.label" :value="i.value">
+                            </el-option>
+                        </el-select>
+                        <br/>
+                        <el-tag
+                                style="margin-top: 10px"
+                                v-for="(tag,index) in dynamicTagsestoo"
+                                :key="index" closable
+                                :disable-transitions="false"
+                                @click="editTagsToo(tag,index)"
+                                @close="handleCloseesToo(tag)">
+                            <span v-if="index!=numses">{{tag}}</span>
+                        </el-tag>
+
+                    </div>
+                    <div style="margin-top: 20px">
+                        <div>
+                            <span>商品规格：</span>
+                            <el-input v-model="addModels.specificationsToo" placeholder="请输入"
+                                      style="width: 250px"></el-input>
+                            <el-button icon="el-icon-circle-plus-outline" type="text" @click="add(3)">
+                                添加
+                            </el-button>
+                            <br/>
+                            <el-tag
+                                    style="margin-top: 10px"
+                                    v-for="(tag,index) in dynamicTagsesthree"
+                                    :key="index" closable
+                                    :disable-transitions="false"
+                                    @click="editTags(tag,index)"
+                                    @close="handleCloseThree(tag)">
+                                <span v-if="index!=nums">{{tag}}</span>
+                                <input
+                                        class="custom_input"
+                                        type="text" v-model="wordsToo"
+                                        v-if="index==nums"
+                                        ref="editInputs"
+                                        @keyup.enter="handleInputs(tag,index)"
+                                        @blur="handleInputs(tag,index)"/>
+                            </el-tag>
+                        </div>
+                    </div>
+                    <div style="margin-top: 20px;text-align: center;">
+                        <el-button @click="cancels()">取 消</el-button>
+                        <el-button type="success" @click="addwmsModel()" style="margin-left: 30px">确 定</el-button>
+                    </div>
+
+                    </span>
+                </el-dialog>
+                <el-dialog title="配置可选值" :visible.sync="dialogFormVisible7"
+                           :append-to-body="true" width="30%" :show-close="false">
+                    <el-form>
+                        <el-form-item label="可选值列表" append-to-body>
+                            <el-select v-model="editAttrList" placeholder="可选值列表" :multiple="multiplesToo"
+                                       :allow-create="allow" :filterable="filterable">
+                                <el-option v-for="(item,index) in AttrListToo" :label="item" :value="item"></el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-form>
+                    <div slot="footer" class="dialog-footer">
+                        <el-button @click="liebiaoCalcel()" v-if="editAttrList == ''">取 消</el-button>
+                        <el-button type="primary" @click="subAttr(2)">确 定</el-button>
+                    </div>
+                </el-dialog>
+            </el-main>
+        </el-container>
+    </el-container>
+    <el-backtop style="right: 1500px"></el-backtop>
+</div>
+
+</body>
+<script rel="script" src="../js/vueJs/Utils.js?v=25"></script>
+<script rel="script" src="../js/vueJs/productInfo.js?v=1241"></script>
+<!--<script rel="script" src="../js/supper/Xsupper.js"></script>-->
+<style>
+    .upload-demo ul li {
+        width: 80px;
+        margin-right: 10px;
+    }
+</style>
+</html>

@@ -1,0 +1,126 @@
+html{height: 100%;}
+body.signin {
+    background: #18c8f6;
+    height: auto;
+    background:url("../img/login-background.jpg") no-repeat center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    color: rgba(255,255,255,.95);
+}
+.signin-top{
+    height: 200px;
+    background:url("../img/top2.jpg");
+	background-size:cover; 
+	text-align:center;
+	padding-top:70px;
+}
+
+.signinpanel {
+  
+}
+
+.signinpanel .logopanel {
+    float: none;
+    width: auto;
+    margin-top: 20px;
+    padding: 20px;
+    background: none;
+}
+.signin-info{
+    margin-left: 60px;
+}
+.signinpanel .signin-info ul {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
+}
+
+.signinpanel .form-control {
+    display: block;
+    margin-top: 15px;
+}
+
+.form-control .validate{
+    margin-left: -20px;
+}
+
+.signinpanel .uname {
+    background: #fff url(../img/user.png) no-repeat 95% center;
+}
+
+.signinpanel .pword {
+    background: #fff url(../img/locked.png) no-repeat 95% center;
+}
+
+.signinpanel .btn {
+    margin-top: 15px;
+}
+
+
+
+.signup-footer{
+    /*border-bottom: 1px dashed rgba(200,226,249,.3); */
+    margin:10px 0;
+    padding-top: 0;
+}
+hr{
+    border-bottom: 1px dashed rgba(200,226,249,.3);
+    width: 350px;
+
+}
+
+.signup-footer .pull-center {
+    text-align: center;
+    font-size: 30px;
+}
+
+.form-horizontal .control-label {
+    text-align:left;
+    padding-top: 30px;
+}
+.form-group {
+    margin-bottom: 0;
+}
+
+.validate{
+    padding-left:1px;
+}
+
+@media screen and (max-width: 768px) {
+    .signinpanel,
+    .signuppanel {
+        margin: 0 auto;
+        width: 420px!important;
+        padding: 20px;
+    }
+    .signinpanel form {
+        margin-top: 20px;
+    }
+    .signup-footer {
+        margin-bottom: 10px;
+    }
+    .signuppanel .form-control {
+        margin-bottom: 10px;
+    }
+    .signup-footer .pull-left,
+    .signup-footer .pull-right,
+    .signup-footer .pull-center {
+        float: none !important;
+        text-align: center;
+    }
+    .signin-info{
+        margin-left: auto;
+    }
+    .signinpanel .signin-info ul {
+        display: none;
+    }
+}
+@media screen and (max-width: 320px) {
+    .signinpanel,
+    .signuppanel {
+        margin:0 20px;
+        width:auto;
+    }
+}

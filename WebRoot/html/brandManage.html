@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- 页面meta -->
+    <meta charset="utf-8">
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <!-- 引入组件库 -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <!-- 引入组件库 -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="../js/jquery-2.1.1.min.js"></script>
+    <script src="https://cdn.bootcss.com/qs/6.7.0/qs.min.js"></script>
+
+    <script src="../js/plugins/zTree/jquery.ztree.all-3.5.min.js"></script>
+    <link rel="stylesheet" href="../js/plugins/zTree/css/metro.css ">
+    <link rel="stylesheet" href="../js/plugins/zTree/css/metro.css">
+
+</head>
+<body style="background-color: white">
+<style>
+    .head {
+        border-right: 1px solid #eeeeee;
+        border-left: 1px solid #eeeeee
+    }
+
+    .headerDiv {
+        line-height: 50px;
+        height: 50px;
+        width: auto;
+        background-color: #eeeeee;
+        border-top: 1px solid #eaeaea;
+        border-bottom: 1px solid #eaeaea;
+    }
+
+    .headerDiv2 {
+        padding: 5px 0px 0px 0px;
+        border-top: 1px solid #eaeaea;
+        border-bottom: 1px solid #eaeaea;
+    }
+
+    .demoInput {
+        display: inline-block;
+        margin-top: 5px;
+    }
+
+    .el-header {
+        padding: 0 0 0 0;
+    }
+    .el-drawer.rtl {
+        overflow: scroll;
+    }
+    :focus {
+        outline: 0;
+    }
+    .el-drawer__body {
+        margin-top: -40px;
+    }
+    .el-upload-list__item is-success{
+        width: 200px;
+    }
+    .el-upload-list--picture .el-upload-list__item{
+        width: 200px;
+        float: left;
+    }
+    .el-upload-list{
+        display: flex;
+        justify-content: center;
+    }
+    .el-upload-list--picture .el-upload-list__item-thumbnail{
+        margin-left: -35px;
+    }
+    [v-cloak] {
+        display:none !important;
+    }
+</style>
+<!-- =============>品牌管理页面-->
+<div id="para" v-cloak>
+    <el-container>
+        <el-header style="height: auto">
+
+            <div class="head">
+                <div class="headerDiv">
+                    <el-button type="primary" style="float: right;margin: 5px 10px auto;" icon="el-icon-refresh-left"
+                               @click="refish()">刷新
+                    </el-button>
+                    <el-button type="primary" style="float: right;margin: 5px 10px auto;" icon="el-icon-circle-plus"
+                               @click="addBrand()">添加品牌
+                    </el-button>
+                </div>
+
+                <div class="headerDiv2">
+                    <el-form :inline="true" :model="queryFrom" class="demo-form-inline">
+                        <el-form-item label="输入搜索:">
+                            <el-input v-model="queryFrom.brand"  placeholder="品牌名称/关键词" style="width: 250px"  @keydown.enter.native="Clickquery()"></el-input>
+                        </el-form-item>
+                        <el-form-item label="是否显示:">
+                            <el-select placeholder="请选择" style="width: 250px" v-model="queryFrom.showIndex" @keydown.enter.native="Clickquery()">
+                                <el-option
+                                        v-for="item in options"
+                                        :key="item.value"
+                                        :label="item.label"
+                                        :value="item.value">
+                                </el-option>
+                            </el-select>
+                            <el-button type="primary" icon="el-icon-search" plain
+                                       round size="small" @click="Clickquery()">点击查询
+                            </el-button>
+                        </el-form-item>
+                    </el-form>
+
+<!--                    <div class="demoInput">-->
+<!--                        输入搜索:-->
+<!--                        <el-input v-model="queryFrom.brand"  placeholder="品牌名称/关键词" style="width: 250px"  @keydown.enter.native="Clickquery()"></el-input>-->
+<!--                        是否显示:-->
+<!--                        <el-select placeholder="请选择" style="width: 250px" v-model="queryFrom.showIndex" @keydown.enter.native="Clickquery()">-->
+<!--                            <el-option-->
+<!--                                    v-for="item in options"-->
+<!--                                    :key="item.value"-->
+<!--                                    :label="item.label"-->
+<!--                                    :value="item.value">-->
+<!--                            </el-option>-->
+<!--                        </el-select>-->
+<!--                    </div>-->
+<!--                    <el-button type="primary" icon="el-icon-search" style="float: right;margin: 5px 126px auto;" plain-->
+<!--                               round size="small" @click="Clickquery()">点击查询-->
+<!--                    </el-button>-->
+                </div>
+            </div>
+
+        </el-header>
+        <el-main>
+            <div>
+                <el-button type="danger" @click="deleteBara()">批量删除</el-button>
+                <el-table
+                        v-loading="loading"
+                        @selection-change="handleSelectionChange"
+                        :data="tableData" border style="width: 100%" ref="multipleTable">
+                    <el-table-column type="selection" width="55" align="center"></el-table-column>
+                    <el-table-column prop="mbaCode" label="商品编号" width="180" align="center"sortable></el-table-column>
+                    <el-table-column prop="mbdName" label="品牌名称" width="180" align="center"sortable></el-table-column>
+                    <el-table-column prop="mbdManufacturer" label="品牌制造商" align="center"></el-table-column>
+                    <el-table-column prop="state" label="是否显示" align="center">
+                        <template slot-scope="scope">
+                            <el-switch
+                                    @change="switchChange(scope.row)"
+                                    v-model="scope.row.state"
+                                    active-value="1"
+                                    inactive-value="2"
+                                    active-color="#13ce66"
+                                    inactive-color="#ff4949">
+                            </el-switch>
+                        </template>
+
+                    </el-table-column>
+                    <el-table-column prop="countState" label="商品引用相关" align="center"sortable></el-table-column>
+                    <el-table-column prop="" label="操作" align="center">
+                        <template slot-scope="scope">
+                            <el-button
+                                    @click="findBrand(scope.row)"
+                                    type="text"
+                                    size="small">
+                                查看
+                            </el-button>
+                            <el-button
+                                    @click="editRow(scope.row)"
+                                    type="text"
+                                    size="small">
+                                编辑
+                            </el-button>
+                            <el-button
+                                    style="color: red"
+                                    @click="deleteBrand(scope.row)"
+                                    type="text"
+                                    size="small">
+                                删除
+                            </el-button>
+                        </template>
+                    </el-table-column>
+                </el-table>
+                <el-pagination
+                        style="float: right"
+                        @size-change="handleSizeChange"
+                        @current-change="handleCurrentChange"
+                        :current-page="currentPage"
+                        :page-sizes="[10, 20, 50, 100]"
+                        :page-size="pageSize"
+                        layout="total, sizes, prev, pager, next, jumper"
+                        :total="total">
+                </el-pagination>
+            </div>
+        </el-main>
+        <el-backtop></el-backtop>
+    </el-container>
+    <el-drawer :visible.sync="drawers" size="80%">
+        <div>
+            <el-container>
+                <el-main>
+                    <div style="text-align: center">
+                        <el-row style="background-color: #4ea0ae;margin-top: 10px;border-radius:5px">
+                            <el-col :span="24">
+                                <div>
+                                    <h3 style="color: white;text-align: center" v-if="isShow">编辑品牌信息</h3>
+                                    <h3 style="color: white;text-align: center" v-else>查看品牌详情</h3>
+                                </div>
+                            </el-col>
+                        </el-row>
+                        <el-row>
+                            <el-col :span="24">
+                                <div style="float: none;margin-top: 10px">品牌名称：
+<!--                                    @input="widthCheck($event.target, 10)-->
+                                    <el-input style="width: 400px" v-model="parameter.paraName" placeholder="请输入内容" :readonly="read"show-word-limit placeholder="请输入内容" maxlength="12"></el-input>
+                                </div>
+                            </el-col>
+                        </el-row>
+
+                        <el-row>
+                            <el-col :span="24" v-if="isShow">
+                                <el-card>
+                                    <el-upload
+                                            :limit="1"
+                                            action="/dentistmall/doService.htm?1=1&service=fileService&func=addFile&fileFolderId=1&jsonSysDateId=VXVOITFHQD"
+                                            :on-remove="handleRemove"
+                                            :on-success="handleAvatarSuccess"
+                                            :file-list="fileList"
+                                            list-type="picture">
+                                        <el-button size="small" type="primary"><span style="color: red">*</span>点击上传品牌logo</el-button>
+                                        <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+                                    </el-upload>
+                                </el-card>
+
+                                <el-card>
+                                    <el-upload
+                                            :limit="6"
+                                            action="/dentistmall/doService.htm?1=1&service=fileService&func=addFile&fileFolderId=1&jsonSysDateId=VXVOITFHQD"
+                                            :on-remove="handleRemoves"
+                                            :on-success="handleAvatar"
+                                            :file-list="fileLists"
+                                            list-type="picture">
+                                        <el-button size="small" type="primary">点击上传品牌大图</el-button>
+                                        <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+                                    </el-upload>
+                                </el-card>
+
+                            </el-col>
+                            <el-col :span="24" v-else>
+                                <div style="margin-top: 10px;display: flex;flex-wrap: wrap;justify-content: center">
+                                    <el-card style="width: 400px">
+                                        <span>品牌logo:</span><br>
+                                        <span v-if="parameter.lessenFileCode == ''" style="color: grey">暂无图片</span>
+                                        <img :src="parameter.lessenFileCode" style="width: 200px;height: 100px">
+                                    </el-card>
+                                    <el-card style="margin-left: 10px;width: 400px">
+                                        <span>品牌大图:</span><br>
+                                        <span v-if="parameter.fileCodes.length == 0 " style="color: grey">暂无图片</span>
+                                        <img v-for="item in parameter.fileCodes" :src="item.url" style="width: 200px;height: 100px">
+                                    </el-card>
+                                </div>
+                            </el-col>
+                        </el-row>
+
+                        <el-row style="margin-top: 10px">
+                            <el-col :span="24">
+                                <div style="float: none;">品牌故事：
+                                    <el-input type="textarea" :rows="4":readonly="read"
+                                              placeholder="请输入内容"
+                                              style="width: 400px;" show-word-limit v-model="parameter.paraColumn" maxlength="200"></el-input>
+                                </div>
+                            </el-col>
+                        </el-row>
+
+                        <el-row style="margin-top: 10px">
+                            <el-col :span="24" v-if="isShow">
+                                <div style="float: none">
+                            <span>
+                                是否显示:
+                            </span>
+                                    <el-radio-group  v-model="parameter.parathewayv">
+                                        <el-radio  label="1" >显示</el-radio>
+                                        <el-radio label="2" >不显示</el-radio>
+                                    </el-radio-group>
+                                </div>
+                            </el-col>
+                            <el-col :span="24" v-else>
+                                <div style="float: none">
+                            <span>
+                                是否显示:
+                            </span>
+                                    <el-radio-group disabled v-model="parameter.parathewayv">
+                                        <el-radio  label="1" >显示</el-radio>
+                                        <el-radio label="2" >不显示</el-radio>
+                                    </el-radio-group>
+                                </div>
+                            </el-col>
+                        </el-row>
+
+                        <el-row style="margin-top: 10px">
+                            <el-col :span="24">
+                                <div>
+                            <span>
+                                品牌制造商:
+                            </span>
+                                    <el-input placeholder="请输入内容" show-word-limit v-model="parameter.paraSort" style="width: 250px":readonly="read" maxlength="30"></el-input>
+                                </div>
+                            </el-col>
+                        </el-row>
+                        <div style="margin-top: 20px">
+                            <el-button type="success" @click="querySubs()" v-if="isShow">确认提交</el-button>
+                            <el-button type="success" @click="drawers = false">返回</el-button>
+                        </div>
+                    </div>
+                </el-main>
+            </el-container>
+        </div>
+    </el-drawer>
+</div>
+</body>
+<script rel="script" src="../js/vueJs/Utils.js?v=25"></script>
+<script rel="script" src="../js/vueJs/brandManage.js?v=87"></script>
+</html>

@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <!-- 页面meta -->
+    <meta charset="utf-8">
+    <!-- 引入样式 -->
+
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+
+    <!-- 引入组件库 -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <!-- 引入组件库 -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="../js/jquery-2.1.1.min.js"></script>
+    <script src="https://cdn.bootcss.com/qs/6.7.0/qs.min.js"></script>
+
+    <script src="../js/plugins/zTree/jquery.ztree.all-3.5.min.js"></script>
+    <link rel="stylesheet" href="../js/plugins/zTree/css/metro.css ">
+    <link rel="stylesheet" href="../js/plugins/zTree/css/metro.css">
+
+</head>
+<body style="background-color: white">
+<style media="screen" type="text/css">
+    .el-table--scrollable-y .el-table__body-wrapper{
+        overflow-y: scroll;
+    }
+    .head {
+        border-right: 1px solid #eeeeee;
+        border-left: 1px solid #eeeeee
+    }
+
+    .headerDiv {
+        line-height: 50px;
+        height: 50px;
+        width: auto;
+        background-color: #eeeeee;
+        border-top: 1px solid #eaeaea;
+        border-bottom: 1px solid #eaeaea;
+    }
+
+    .headerDiv2 {
+        padding: 5px 0px 0px 0px;
+        border-top: 1px solid #eaeaea;
+        border-bottom: 1px solid #eaeaea;
+    }
+
+    .demoInput {
+        display: inline-block;
+        margin-top: 5px;
+    }
+
+    .el-header {
+        padding: 0 0 0 0;
+    }
+
+    .el-row {
+        margin-bottom: 30px;
+    }
+    .el-drawer.rtl {
+        overflow: scroll;
+    }
+    :focus {
+        outline: 0;
+    }
+    .el-drawer__body {
+        margin-top: -40px;
+    }
+    .el-tag + .el-tag {
+        margin-left: 10px;
+    }
+    .button-new-tag {
+        margin-left: 10px;
+        height: 32px;
+        line-height: 30px;
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+    .input-new-tag {
+        width: 90px;
+        margin-left: 10px;
+        vertical-align: bottom;
+    }
+    .appLoading { width: 100%; height: 100%; }
+    #appLoading span {
+        position: absolute;
+        display: block;
+        font-size: 50px;
+        line-height: 50px;
+        top: 50%;
+        left: 50%;
+        width: 200px;
+        height: 100px;
+        -webkit-transform: translateY(-50%)  translateX(-50%);
+        transform: translateY(-50%)  translateX(-50%);
+    }
+    [v-cloak] {
+        display:none !important;
+    }
+</style>
+<!-- =============>属性管理页面-->
+<div id="para" v-cloak>
+    <el-container>
+        <el-header style="height: auto">
+
+            <div class="head">
+                <div class="headerDiv">
+                    <el-button type="primary" style="float: right;margin: 5px 10px auto;" icon="el-icon-refresh-left"
+                               @click="refish()">刷新
+                    </el-button>
+                    <el-button type="primary" style="float: right;margin: 5px 10px auto;" icon="el-icon-circle-plus"
+                               @click="showTtemWins()">添加属性
+                    </el-button>
+                    <el-drawer :visible.sync="drawers" size="80%">
+                        <div>
+                            <el-container>
+                                <el-main>
+                                    <div style="text-align: center">
+                                        <el-row style="background-color: #4ea0ae;margin-top: 10px;border-radius:5px">
+                                            <el-col :span="24">
+                                                <div>
+                                                    <h3 style="color: white;text-align: center">添加属性信息</h3>
+                                                </div>
+                                            </el-col>
+                                        </el-row>
+                                        <el-row>
+                                            <el-col :span="24" style="display:flex;justify-content: center; align-items: center">
+                                                <div style=""><span style="color: red">*</span>属性名称：</div>
+                                                <div style="width: 250px">
+                                                    <el-input style="" v-model="parameters.paraName" placeholder="请输入内容"></el-input>
+                                                </div>
+                                            </el-col>
+                                        </el-row>
+                                        <el-row>
+                                            <el-col :span="24" style="display:flex;justify-content: center; align-items: center">
+                                                <div style="">分类样式筛选：</div>
+                                                <div style="width: 250px;">
+                                                    <el-radio-group v-model="parameters.paratheways" @change="radioChange()">
+                                                        <el-radio label="1">普通</el-radio>
+                                                        <el-radio label="2">颜色</el-radio>
+                                                    </el-radio-group>
+                                                </div>
+                                            </el-col>
+                                        </el-row>
+                                        <el-row>
+                                            <el-col :span="24" style="display:flex;justify-content: center; align-items: center">
+                                                <div style="">能否进行检索：</div>
+                                                <div>
+                                                    <el-radio v-model="parameters.parathewayv" label="3">不需要检索</el-radio>
+                                                    <el-radio v-model="parameters.parathewayv" label="1">关键字检索</el-radio>
+                                                    <el-radio v-model="parameters.parathewayv" label="2">范围检索</el-radio>
+                                                </div>
+
+                                            </el-col>
+                                        </el-row>
+                                        <el-row>
+                                            <el-col :span="24" style="display:flex;justify-content: center; align-items: center">
+                                 <span style="color: grey">
+                                    不需要该属性成为检索商品条件的情况请选择不需要检索，需要该属性进行关键字检索商品时<br/>选择关键字检索如果该属性检索时希望是指定某个范围时，选择范围检索。
+                                </span>
+                                            </el-col>
+                                        </el-row>
+                                        <el-row>
+                                            <el-col :span="24" style="display:flex;justify-content: center; align-items: center">
+                                                <div style="">属性是否可选：</div>
+                                                <div style="">
+                                                    <el-radio v-model="parameters.paraRelateds" label="1">唯一属性</el-radio>
+                                                    <el-radio v-model="parameters.paraRelateds" label="2">单选属性</el-radio>
+                                                    <el-radio v-model="parameters.paraRelateds" label="3">复选属性</el-radio>
+                                                </div>
+                                                <br>
+
+
+                                            </el-col>
+                                        </el-row>
+                                        <el-row>
+                                            <el-col :span="24" style="display:flex;justify-content: center; align-items: center">
+                                     <span style="color: grey">
+                                    选择"单选/复选属性"时，可以对商品该属性设置多个值，同时还能对不同属性值指定不同的价格加价<br/>用户购买商品时需要选定具体的属性值。选择"唯一属性"时，商品的该属性值只能设置一个值，用户只能查看该值。
+                                </span>
+                                            </el-col>
+                                        </el-row>
+                                        <el-row>
+                                            <el-col :span="24" style="display:flex;justify-content: center; align-items: center">
+                                                <div style=""><span style="color: red">*</span>属性录入方式：</div>
+                                                <div style="">
+                                                    <el-checkbox v-model="parameters.paratheway" true-label="1">手动录入</el-checkbox>
+                                                    <el-checkbox v-model="parameters.paratheway" true-label="2">从下面的列表选一个</el-checkbox>
+                                                    <br/>
+                                                </div>
+                                            </el-col>
+                                        </el-row>
+                                        <el-row style="display:flex;justify-content: center; align-items: center">
+                                            <!--<el-col :span="12" style="display:flex;justify-content: center; align-items: center">-->
+                                                <el-col style="display:flex;justify-content: center; align-items: center">
+                                                <div style="width: 130px">属性值可选列表：</div>
+                                                <div style="max-width: 600px">
+                                                    <div style="width: 300px">
+                                                        <el-table
+                                                                border
+                                                                v-if="tableShow"
+                                                                :data="tableDatas"
+                                                                style="width:99%; margin-top: 10px;height:100%">
+                                                            <el-table-column prop="mmamxName" label="属性可选值" align="center" width="150"></el-table-column>
+                                                            <el-table-column label="操作" align="center">
+                                                                <template slot-scope="scope">
+                                                                    <el-button @click="chooesAttr(scope.row,2)" type="text" size="small" align="center">选择</el-button>
+                                                                </template>
+                                                            </el-table-column>
+                                                        </el-table>
+                                                        <el-pagination
+                                                                v-if="tableShow"
+                                                                style="float: right"
+                                                                @size-change="handleSizeChanges"
+                                                                @current-change="handleCurrentChanges"
+                                                                :current-page="currentPages"
+                                                                :page-sizes="[5, 10, 15, 20]"
+                                                                :page-size="pageSizes"
+                                                                layout="total, sizes, prev, pager, next, jumper"
+                                                                :total="totals">
+                                                        </el-pagination>
+                                                    </div>
+
+                                                    <el-tag
+                                                            :key="tag"
+                                                            v-for="tag in dynamicTags"
+                                                            closable
+                                                            :disable-transitions="true"
+                                                            @close="handleClose(tag)">
+                                                        {{tag}}
+                                                    </el-tag>
+                                                    <el-input
+                                                            class="input-new-tag"
+                                                            v-if="inputVisible"
+                                                            v-model="inputValue"
+                                                            ref="saveTagInput"
+                                                            size="small"
+                                                            @keyup.enter.native="handleInputConfirm"
+                                                            @blur="handleInputConfirm">
+                                                    </el-input>
+                                                    <el-button v-else class="button-new-tag" size="small" @click="showInput">+添加</el-button>
+                                                </div>
+                                            </el-col>
+                                        </el-row>
+                                        <div style="text-align: center">
+                                            <el-button type="text" @click="editColor()">设置颜色属性</el-button>
+                                        </div>
+                                        <el-row>
+                                            <el-col :span="24" style="display:flex;justify-content: center; align-items: center">
+                                                <div style="">是否支持手动新增：</div>
+                                                <div style="width: 250px;">
+                                                    <el-radio v-model="parameters.paraSearch" label="1">是</el-radio>
+                                                    <el-radio v-model="parameters.paraSearch" label="2">否</el-radio>
+                                                </div>
+                                            </el-col>
+                                        </el-row>
+                                        <el-row>
+                                            <el-col :span="24" style="display:flex;justify-content: center; align-items: center">
+                                                <div style="">是否启用：</div>
+                                                <div style="width: 250px;">
+                                                    <el-radio v-model="parameters.state" label="1">是</el-radio>
+                                                    <el-radio v-model="parameters.state" label="2">否</el-radio>
+                                                </div>
+                                            </el-col>
+                                        </el-row>
+                                        <el-row>
+                                            <el-col :span="24" style="display:flex;justify-content: center; align-items: center">
+                                                <div style="">参数排序：</div>
+                                                <div style="">
+                                                    <el-input placeholder="请输入内容" v-model="parameters.paraSort"
+                                                              style="width: 400px"></el-input>
+                                                </div>
+                                            </el-col>
+                                        </el-row>
+                                        <div style="margin-top: 20px">
+                                            <el-button type="success" @click="addAttr()">确认提交</el-button>
+                                            <el-button type="success"@click="drawers = false">返回</el-button>
+                                        </div>
+                                    </div>
+
+                                </el-main>
+
+                                </el-main>
+                            </el-container>
+                        </div>
+                    </el-drawer>
+                </div>
+                <div class="headerDiv2">
+                    <el-form :inline="true" :model="queryFrom" class="demo-form-inline">
+                        <el-form-item label="输入搜索:">
+                            <el-input
+                                    @keydown.enter.native="selectQuery"
+                                    class="inline-input"
+                                    v-model="queryFrom.selectFrom"
+                                    placeholder="名称或者名称关键字">
+                            </el-input>
+                        </el-form-item>
+                        <el-form-item label=" 是否启用:">
+                            <el-select placeholder="请选择"  v-model="queryFrom.isShow"@keydown.enter.native="selectQuery">
+                                <el-option
+                                        v-for="item in options"
+                                        :key="item.value"
+                                        :label="item.label"
+                                        :value="item.value">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                        <el-form-item label="属性值:">
+                            <el-select placeholder="请选择"  v-model="queryFrom.isMust" @keydown.enter.native="selectQuery">
+                                <el-option
+                                        v-for="item in optiones"
+                                        :key="item.value"
+                                        :label="item.label"
+                                        :value="item.value">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                        <el-form-item>
+                            <el-button type="primary" icon="el-icon-search"size="small" plain round @click="selectQuery()">点击查询</el-button>
+                        </el-form-item>
+                    </el-form>
+                </div>
+            </div>
+
+        </el-header>
+        <el-main>
+            <div>
+                <el-button type="danger" @click="deleteRowS()">批量删除</el-button>
+                <el-table
+                        v-loading="loading"
+                        element-loading-text="拼命加载中"
+                        @selection-change="handleSelectionChange"
+                        :data="tableData" border style="width: 100%" ref="multipleTable">
+                    <el-table-column type="selection"  align="center"></el-table-column>
+                    <el-table-column prop="mmaCode" label="编号"  sortable align="center"></el-table-column>
+                    <el-table-column prop="mmaName" label="属性名称" sortable align="center"></el-table-column>
+                    <el-table-column prop="isOptional" label="属性是否可选"sortable align="center" :formatter="isOptional"></el-table-column>
+                    <el-table-column prop="inputModel" label="属性值录入方式"sortable align="center" :formatter="inputModel"></el-table-column>
+                    <el-table-column prop="optionalValue" label="可选值列表"sortable align="center"></el-table-column>
+                    <el-table-column prop="state" label="是否启用" align="center" :formatter="stateSetting"></el-table-column>
+                    <el-table-column prop="" label="操作" align="center">
+                        <template slot-scope="scope">
+                            <el-switch
+                                    @change="switchChange(scope.row)"
+                                    v-model="scope.row.state"
+                                    active-value="1"
+                                    inactive-value="2"
+                                    active-color="#13ce66"
+                                    inactive-color="#ff4949">
+                            </el-switch>
+                            <el-button
+                                    @click="editRow(scope.row, tableData)"
+                                    type="text"
+                                    size="small">
+                                编辑
+                            </el-button>
+                            <el-button
+                                    @click="deleteRow(scope.row, tableData)"
+                                    type="text"
+                                    size="small">
+                                删除
+                            </el-button>
+                        </template>
+                    </el-table-column>
+                </el-table>
+                <el-pagination
+                        style="float: right"
+                        @size-change="handleSizeChange"
+                        @current-change="handleCurrentChange"
+                        :current-page="currentPage"
+                        :page-sizes="[10, 20, 50, 100]"
+                        :page-size="pageSize"
+                        layout="total, sizes, prev, pager, next, jumper"
+                        :total="total">
+                </el-pagination>
+            </div>
+        </el-main>
+        <el-dialog
+                title="编辑属性"
+                :visible.sync="dialogVisible"
+                width="60%">
+            <el-main>
+                <div>
+                    <el-row>
+                        <el-col :span="24" style="display:flex;justify-content: center; align-items: center">
+                            <div style="">属性名称：</div>
+                            <div style="width: 250px">
+                                <el-input style="" v-model="parameter.mmaName" placeholder="请输入内容"></el-input>
+                            </div>
+                        </el-col>
+                    </el-row>
+                    <el-row>
+                        <el-col :span="24" style="display:flex;justify-content: center; align-items: center">
+                            <div style="">分类样式筛选：</div>
+                            <div style="width: 250px;">
+                                <el-radio v-model="parameter.screenType" label="1" >普通</el-radio>
+                                <el-radio v-model="parameter.screenType" label="2" >颜色</el-radio>
+                            </div>
+                        </el-col>
+                    </el-row>
+                    <el-row>
+                        <el-col :span="24" style="display:flex;justify-content: center; align-items: center">
+                            <div>能否进行检索：</div>
+                            <div>
+                                <el-radio v-model="parameter.isSearch" label="3">不需要检索</el-radio>
+                                <el-radio v-model="parameter.isSearch" label="1">关键字检索</el-radio>
+                                <el-radio v-model="parameter.isSearch" label="2">范围检索</el-radio>
+                            </div>
+                        </el-col>
+                    </el-row>
+                    <el-row>
+                        <el-col :span="24" style="display:flex;justify-content: center; align-items: center">
+                            <div style="">属性是否可选：</div>
+                            <div style="">
+                                <el-radio v-model="parameter.isOptional" label="1">唯一属性</el-radio>
+                                <el-radio v-model="parameter.isOptional" label="2">单选属性</el-radio>
+                                <el-radio v-model="parameter.isOptional" label="3">复选属性</el-radio>
+                            </div>
+                        </el-col>
+                    </el-row>
+                    <el-row>
+                        <el-col :span="24" style="display:flex;justify-content: center; align-items: center">
+                            <div style="">属性录入方式：</div>
+                            <div style="">
+                                <el-checkbox v-model="parameter.inputModel" true-label="1">手动录入</el-checkbox>
+                                <el-checkbox v-model="parameter.inputModel" true-label="2">从下面的列表选一个</el-checkbox>
+                                <br/>
+                            </div>
+                        </el-col>
+                    </el-row>
+                    <el-row>
+                        <el-col :span="24" style="display:flex;justify-content: center; align-items: center">
+
+                            <div style="">属性值可选列表</div>
+                            <div style="">
+                                <el-table
+                                        v-if="parameter.screenType == 2"
+                                        :data="tableDatas"
+                                        style="width: 100%;margin-top: 10px">
+                                    <el-table-column prop="mmamxName" label="属性可选值" align="center" width="150"></el-table-column>
+                                    <el-table-column label="操作">
+                                        <template slot-scope="scope">
+                                            <el-button @click="chooesAttr(scope.row,1)" type="text" size="small" align="center">选择</el-button>
+                                        </template>
+                                    </el-table-column>
+                                </el-table>
+                                <el-pagination
+                                        v-if="parameter.screenType == 2"
+                                        style="float: right"
+                                        @size-change="handleSizeChanges"
+                                        @current-change="handleCurrentChanges"
+                                        :current-page="currentPages"
+                                        :page-sizes="[5, 10, 15, 20]"
+                                        :page-size="pageSizes"
+                                        layout="total, sizes, prev, pager, next, jumper"
+                                        :total="totals">
+                                </el-pagination>
+
+                                <el-tag
+
+                                        :key="tag"
+                                        v-for="tag in dynamicTagsToo"
+                                        closable
+                                        :disable-transitions="true"
+                                        @close="handleCloses(tag)">
+                                    {{tag}}
+                                </el-tag>
+                                <el-input
+                                        class="input-new-tag"
+                                        v-if="inputVisibles"
+                                        v-model="inputValues"
+                                        ref="saveTagInputs"
+                                        size="small"
+                                        @keyup.enter.native="handleInputConfirms"
+                                        @blur="handleInputConfirms"
+                                >
+                                </el-input>
+                                <el-button v-else class="button-new-tag" size="small" @click="showInputs" >+添加</el-button>
+                            </div>
+
+                        </el-col>
+                        <div style="text-align: center">
+                            <el-button type="text" @click="editColor()">设置颜色属性</el-button>
+                        </div>
+
+                    </el-row>
+                    <el-row>
+                        <el-col :span="24" style="display:flex;justify-content: center; align-items: center">
+                            <div style="">是否支持手动新增：</div>
+                            <div style="width: 250px;">
+                                <el-radio v-model="parameter.newAdd" label="1">是</el-radio>
+                                <el-radio v-model="parameter.newAdd" label="2">否</el-radio>
+                            </div>
+                        </el-col>
+                    </el-row>
+                    <el-row>
+                        <el-col :span="24" style="display:none;justify-content: center; align-items: center">
+                            <div style="">是否启用：</div>
+                            <div style="width: 250px;">
+                                <el-radio v-model="parameter.state" label="1">是</el-radio>
+                                <el-radio v-model="parameter.state" label="2">否</el-radio>
+                            </div>
+                        </el-col>
+                    </el-row>
+                    <el-row>
+                        <el-col :span="24" style="display:flex;justify-content: center; align-items: center">
+                            <div style="">参数排序：</div>
+                            <div style="">
+                                <el-input placeholder="请输入内容" v-model="parameter.mmaSort"
+                                          style="width: 400px"></el-input>
+                            </div>
+                        </el-col>
+                    </el-row>
+
+                </div>
+            </el-main>
+            <div style="display:flex;justify-content: center; align-items: center">
+                <el-button @click="dialogVisible = false">取 消</el-button>
+                <el-button type="success" @click="addAttrs()">确认提交</el-button>
+            </div>
+
+        </el-dialog>
+
+    </el-container>
+</div>
+</body>
+<script rel="script" src="../js/vueJs/Utils.js?v=25"></script>
+<script rel="script" src="../js/vueJs/attributeManage.js?v=86"></script>
+</html>

@@ -1,0 +1,84 @@
+.awards-imgs .imgul li .add,
+.awards-imgs .imgul li:hover .imgdel {
+  background: url(../img/sprite-new.png) 999px 999px no-repeat;
+}
+.awards-imgs .imgul {
+  
+}
+.awards-imgs .imgul li {
+  width: 90px;
+  height: 90px;
+  float: left;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  position: relative;
+  list-style: none;
+  text-align:center;
+}
+.awards-imgs .imgul .one {
+  width: 200px;
+  height: 90px;
+  float: left;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  position: relative;
+  list-style: none;
+  text-align:center;
+}
+.awards-imgs .imgul .one img {
+  width: 200px;
+  height: 90px;
+}
+.awards-imgs .imgul .one .butyfile {
+  filter: alpha(opacity=0);
+  -moz-opacity: 0;
+  -khtml-opacity: 0;
+  opacity: 0;
+  width: 89px;
+  height: 89px;
+  position: absolute;
+  top: 0;
+  left: 60px;
+  cursor: pointer;
+}
+.awards-imgs .imgul li img {
+  width: 90px;
+  height: 90px;
+}
+.awards-imgs .imgul li .add {
+  width: 35px;
+  height: 35px;
+  margin-top: 27px;
+  margin-left: 29px;
+  background-position: 0px -424px;
+}
+.awards-imgs .imgul li .butyfile {
+  filter: alpha(opacity=0);
+  -moz-opacity: 0;
+  -khtml-opacity: 0;
+  opacity: 0;
+  width: 89px;
+  height: 89px;
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  cursor: pointer;
+}
+.awards-imgs .addLi {
+  width: 89px;
+  height: 89px;
+  border: 1px dashed #c6c6c6;
+  cursor: pointer;
+  background-color: #f8f8f8;
+  margin-left:60px;
+}
+.awards-imgs .imgul li:hover .imgdel {
+  position: absolute;
+  margin: 0;
+  top: 0;
+  right: 0;
+  width: 20px;
+  height: 20px;
+  background-position: 0px -500px;
+}

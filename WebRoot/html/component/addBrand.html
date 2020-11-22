@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- 页面meta -->
+    <meta charset="utf-8">
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <!-- 引入组件库 -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <!-- 引入组件库 -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.bootcss.com/qs/6.7.0/qs.min.js"></script>
+</head>
+<style>
+    .el-header {
+        background-color: #E9EEF3;
+        color: #333;
+        text-align: center;
+        line-height: 60px;
+    }
+
+    .el-main {
+        color: #333;
+        text-align: center;
+        line-height: 160px;
+    }
+
+    body > .el-container {
+        margin-bottom: 40px;
+    }
+
+    .el-row {
+        margin-bottom: 20px;
+        line-height: 40px;
+    }
+
+    .el-col {
+        border-radius: 4px;
+    }
+
+    .el-upload-list {
+        display: flex;
+        justify-content: center;
+    }
+    .avatar-uploader .el-upload {
+        border: 1px dashed #d9d9d9;
+        border-radius: 6px;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+    }
+    .avatar-uploader .el-upload:hover {
+        border-color: #409EFF;
+    }
+    .avatar-uploader-icon {
+        font-size: 28px;
+        color: #8c939d;
+        width: 178px;
+        height: 178px;
+        line-height: 178px;
+        text-align: center;
+    }
+    .avatar {
+        width: 178px;
+        height: 178px;
+        display: block;
+    }
+</style>
+<body style="background-color: white">
+<div id="addBrand">
+    <el-container>
+        <el-header>
+            <div>
+                <h3 style="margin-top: 0px">添加品牌</h3>
+            </div>
+        </el-header>
+        <el-main>
+            <div>
+                <el-row>
+                    <el-col :span="24">
+                        <div style="float: none;"><span style="color: red">*</span>品牌名称：
+                            <el-input style="width: 400px" v-model="parameter.paraName" type="text"
+                                      show-word-limit placeholder="请输入内容" maxlength="12"></el-input>
+                        </div>
+                    </el-col>
+                </el-row>
+                <el-row>
+                    <el-col :span="24">
+                        <div style="margin-top: 10px;display: flex;flex-wrap: wrap;justify-content: center">
+                            <el-card>
+                                <el-upload
+                                        :limit="1"
+                                        class="upload-demo"
+                                        :action="actionsUrl"
+                                        :on-remove="handleRemoves"
+                                        :file-list="fileLists"
+                                        list-type="picture"
+                                        :on-success="handleAvatar">
+                                    <span><span style="color: red">*</span>品牌logo:</span>
+                                    <el-button size="small" type="primary">点击上传</el-button>
+                                    <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb，仅限一张</div>
+                                </el-upload>
+
+
+                            </el-card>
+
+                        </div>
+                    </el-col>
+                </el-row>
+                <el-row>
+                    <el-col :span="24">
+                        <div style="margin-top: 10px;display: flex;flex-wrap: wrap;justify-content: center">
+                            <el-card>
+                                <el-upload
+                                        :limit="1"
+                                        class="upload-demo"
+                                        :action="actionsUrl"
+                                        :on-preview="handlePreview"
+                                        :on-remove="handleRemove"
+                                        :file-list="fileList"
+                                        list-type="picture"
+                                        :on-success="handleAvatarSuccessz">
+                                    <span>品牌大图:</span>
+                                    <el-button size="small" type="primary">点击上传</el-button>
+                                    <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb，仅限一张！</div>
+                                </el-upload>
+                            </el-card>
+
+                        </div>
+                    </el-col>
+                </el-row>
+
+                <el-row>
+                    <el-col :span="24">
+                        <div style="float: none;">品牌故事：
+                            <el-input type="textarea" :rows="4" maxlength="200"
+                                      show-word-limit
+                                      placeholder="请输入内容"
+                                      style="width: 400px;" v-model="parameter.paraColumn"></el-input>
+                        </div>
+                    </el-col>
+                </el-row>
+
+                <el-row>
+                    <el-col :span="24">
+                        <div style="float: none">
+                            <span>
+                                是否显示:
+                            </span>
+                            <el-radio v-model="parameter.parathewayv" label="1">是</el-radio>
+                            <el-radio v-model="parameter.parathewayv" label="2">否</el-radio>
+                        </div>
+                    </el-col>
+                </el-row>
+
+                <el-row>
+                    <el-col :span="24">
+                        <div>
+                            <span>
+                                品牌制造商:
+                            </span>
+                            <el-input placeholder="请输入内容" show-word-limit v-model="parameter.paraSort" style="width: 250px" maxlength="30"></el-input>
+                        </div>
+                    </el-col>
+                </el-row>
+
+                <el-button type="success" @click="querySubs()">确认提交</el-button>
+                <el-button type="success" @click="showTtemWin()">返回</el-button>
+            </div>
+        </el-main>
+    </el-container>
+</div>
+</body>
+<script rel="script" src="../../js/vueJs/Utils.js?v=25"></script>
+<script rel="script" src="../../js/vueJs/addBrand.js?v=38"></script>
+</html>

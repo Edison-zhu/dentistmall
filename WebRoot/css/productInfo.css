@@ -1,0 +1,120 @@
+.el-drawer.rtl {
+    overflow: scroll;
+}
+
+.head {
+    border-right: 1px solid #eeeeee;
+    border-left: 1px solid #eeeeee
+}
+
+.headerDiv {
+    line-height: 50px;
+    height: 50px;
+    width: auto;
+    background-color: #eeeeee;
+    border-top: 1px solid #eaeaea;
+    border-bottom: 1px solid #eaeaea;
+}
+
+.headerDiv2 {
+    /*word-spacing: 40px;*/
+    padding: 20px 0px 0px 0px;
+    border-top: 1px solid #eaeaea;
+    border-bottom: 1px solid #eaeaea;
+}
+
+.demoInput {
+    display: inline-block;
+    margin-top: 5px;
+}
+
+.el-header {
+    padding: 0 0 0 0;
+}
+
+.el-drawer__body {
+    margin-top: -20px;
+}
+
+:focus {
+    outline: 0;
+}
+
+.text {
+    font-size: 14px;
+}
+
+.item {
+    margin-bottom: 18px;
+}
+
+.clearfix:before,
+.clearfix:after {
+    display: table;
+    content: "";
+}
+
+.clearfix:after {
+    clear: both
+}
+
+.box-card {
+    transition: all 3s;
+    width: 200px;
+}
+
+.el-card__header {
+    text-align: center;
+    color: #66b1ff;
+}
+.active {
+    color: #4cbbb9;
+}
+li{
+    cursor: pointer;
+}
+.el-row {
+    margin-bottom: 30px;
+}
+.el-col {
+    border-radius: 4px;
+}
+.upload-demo{
+    display: inline;
+}
+.el-divider__text.is-left {
+    left: -19px;
+}
+.el-divider--horizontal {
+    margin-top: 0px;
+}
+.el-tag+.el-tag {
+    margin-left: 10px;
+}
+
+.button-new-tag {
+    margin-left: 10px;
+    height: 32px;
+    line-height: 30px;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.input-new-tag {
+    width: 90px;
+    margin-left: 10px;
+    vertical-align: bottom;
+}
+
+.custom_input {
+    width: 80px;
+    height: 16px;
+    outline: none;
+    border: transparent;
+    background-color: transparent;
+    font-size: 12px;
+    color: #B59059;
+}
+.el-avatar {
+    background-color: white;
+}

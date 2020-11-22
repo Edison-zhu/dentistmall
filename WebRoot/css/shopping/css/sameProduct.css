@@ -1,0 +1,155 @@
+.same-product {
+    background: white;
+    /*margin: 0 auto;*/
+    margin-top: 10px;
+    padding: 10px;
+    border-radius: 4px;
+    height: 100%;
+}
+
+.same-product .li-display {
+    text-align: center;
+}
+
+.same-product .out-line {
+    /*outline: 1px black solid;*/
+}
+
+.border-wrong {
+    border: 1px red solid
+}
+
+.same-product .line-heigt {
+    /*line-height: 98px;*/
+    height: auto;
+}
+
+.same-product .block {
+    display: block;
+    float: left;
+}
+
+.same-product .div-padding {
+    padding-left: 10px;
+    /*padding-right: 10px;*/
+}
+
+.same-product .display-flex {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: center;
+    align-items: center;
+    justify-content: start;
+}
+
+.same-product .display-flex .flex-1 {
+    width: 0;
+    word-wrap: break-word;
+    flex: 1;
+}
+
+.same-product .display-flex .flex-2 {
+    width: 0;
+    word-wrap: break-word;
+    flex: 2;
+}
+
+.same-product .display-flex .flex-3 {
+    width: 0;
+    word-wrap: break-word;
+    flex: 3;
+}
+
+.same-product .display-flex .flex-4 {
+    width: 0;
+    word-wrap: break-word;
+    flex: 4;
+}
+
+
+.same-product .display-flex .flex-6 {
+    width: 0;
+    word-wrap: break-word;
+    flex: 6;
+}
+
+.same-product .display-mmf {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: center;
+    align-items: center;
+    justify-content: start;
+}
+
+.same-product .border-bottom-list {
+    border-bottom: 1px dotted black;
+}
+
+.same-product .ul li:hover
+.same-product .add {
+    background: url(../img/sprite-new.png) 999px 999px no-repeat;
+}
+
+.same-product .butyfile {
+    filter: alpha(opacity=0);
+    -moz-opacity: 0;
+    -khtml-opacity: 0;
+    /*opacity: 0;*/
+    width: 89px;
+    height: 81px;
+    cursor: pointer;
+}
+
+.same-product .nav{
+    background: url('../images/nav-background.png') no-repeat top left;
+    height: 30px;
+    line-height: 30px;
+    color: white;
+}
+.same-product .border-right {
+    /*border-right: 1px solid lightgrey;*/
+}
+
+.divFilter {
+    display: none;
+    float: left;
+    margin: 0 auto;
+    position: absolute;
+    /*top: 20%;*/
+    /*left: 20%;*/
+    width: 50%;
+    background-color: whitesmoke;
+    z-index: 901;
+    height: 380px;
+}
+
+.u-mask {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 900;
+    width: 100%;
+    height: 100%;
+    background-color: #000000;
+    filter: alpha(opacity=80);
+    -moz-opacity: 0.8;
+    -khtml-opacity: 0.8;
+    opacity: 0.5;
+}
+
+.same-product .disabled{
+    cursor: not-allowed;
+    pointer-events:none
+}
+
+.same-product .type{
+    width: 100px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.same-product .back-color {
+    background-color: ghostwhite;
+}

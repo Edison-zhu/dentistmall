@@ -1,0 +1,199 @@
+/*bread-crumb*/
+.bread-crumb{
+  padding-left: 10px;
+  height: 58px;
+  line-height: 58px;
+}
+
+.bread-crumb label:before{
+  content: '/';
+  margin: 0 5px;
+}
+
+/*search-filter*/
+.search-filter .search-condition, .search-sort{
+  background-color: #feffff;
+}
+
+.search-filter .search-condition .filter-section{
+  line-height: 48px;
+  background-color: #feffff;
+}
+
+.search-filter .search-condition .filter-section:nth-child(even){
+  background-color: #fafbfc;
+}
+
+.search-filter .filter-title{
+  display: inline-block;
+  box-sizing: border-box;
+  padding-left: 30px;
+  width: 92px;
+  color: #333333;
+}
+
+.search-filter .filter-section{
+  position: relative;
+}
+
+.search-filter .filter-section .load-more{
+  line-height: 48px;
+  position: absolute;
+  right: 10px;
+  bottom: 0;
+  cursor: pointer;
+}
+
+.search-filter .filter-section .load-more:before{
+  display: none;
+}
+
+.search-filter .filter-section .load-more:after{
+  content: "\e902";
+}
+.search-filter .filter-section .close-load-more{
+  line-height: 48px;
+  position: absolute;
+  right: 10px;
+  bottom: 0;
+  cursor: pointer;
+  display: none;
+}
+
+.search-filter .filter-section .close-load-more:before{
+  display: none;
+}
+
+.search-filter .filter-section .close-load-more:after{
+  content: "\e908";
+}
+
+/*.search-filter .filter-content{*/
+  /*line-height: 48px;*/
+/*}*/
+/*.search-filter .filter-content:before{*/
+  /*display: none;*/
+/*}*/
+
+/*.search-filter .filter-content:after{*/
+  /*content: "更多\e902";*/
+  /*position: absolute;*/
+  /*right: 10px;*/
+/*}*/
+
+.search-filter .filter-content:after:hover{
+  cursor: pointer;
+}
+
+.search-filter .filter-content{
+  width: 990px;
+}
+
+.search-filter .filter-content .filter-item{
+  display: inline-block;
+  margin: auto 10px;
+}
+
+.search-filter .filter-brand .filter-item{
+  color: #1a5998;
+}
+
+.search-filter .filter-brand .active{
+  font-weight: 900;
+}
+
+
+
+.search-filter .filter-category .filter-item {
+  color: #333333;
+  cursor: pointer;
+}
+
+.search-filter .filter-category .active {
+  color: #2dc07f;
+}
+
+.search-filter .search-sort{
+  margin: 10px 0;
+  height: 45px;
+  line-height: 45px;
+}
+
+.search-filter .search-sort .filter-title{
+  font-weight: 300;
+}
+
+.search-filter .search-sort label{
+  margin: 0 10px;
+  color: #333333;
+}
+
+.search-filter .search-sort label:before{
+  margin-right: 3px;
+}
+
+.search-filter .search-sort label.active{
+  color: #2dc07f;
+}
+
+.search-filter .search-sort label:before,.sort-up:after, .sort-down:after{
+  font-size: 17px;
+  position: relative;
+  top: 3px;
+}
+
+.search-filter .search-sort .sort-up:after, .sort-down:after{
+  margin-left: -3px;
+}
+
+.search-filter .search-sort .sort-up:after{
+  content: "\e913";
+}
+
+.search-filter .search-sort .sort-down:after{
+  content: "\e910";
+}
+
+.search-filter .search-sort .default{
+  margin-left: -10px;
+}
+
+.search-filter .border-line{
+  border: 1px solid #f6f7f8;
+}
+
+.search-filter .border-right-line{
+  border-right: 1px solid #f6f7f8;
+}
+
+.search-filter .border-bottom-line{
+  border-bottom: 1px solid #f6f7f8;
+}
+
+.pagination{
+  height:50px;
+  line-height: 20px;
+  text-align: center;
+  display:block;
+  margin-top:10px
+}
+
+.pagination div{
+  width: 25px;
+  height: 25px;
+  line-height: 25px;
+  vertical-align: middle;
+  display: inline-block;
+  margin: 0 10px;
+  border: 1px solid #ccc;
+}
+
+.pagination div.active{
+  color: #fff;
+  background-color: #31b871;
+  border:none;
+}
+
+.content{
+  min-height: 300px;
+}

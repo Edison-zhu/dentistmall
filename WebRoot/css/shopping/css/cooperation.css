@@ -1,0 +1,116 @@
+.content{
+  min-height: 300px;
+  width:100%;
+  padding-bottom: 20px;
+}
+
+.cooperation-item{
+  height: 240px;
+  border: 1px solid #ccc;
+  margin-bottom: 15px;
+  box-sizing: border-box;
+  padding: 28px 20px;
+  background-color: #feffff;
+}
+
+.cooperation-item .item-logo{
+  float: left;
+}
+
+.cooperation-item .item-images{
+  float: right;
+  display: flex;
+}
+
+.cooperation-item .item-logo .logo{
+  height: 134px;
+  width: 226px;
+  margin-bottom: 20px;
+}
+
+.cooperation-item .item-logo .logo img{
+  height: 100%;
+  width: 100%;
+}
+
+.cooperation-item .item-logo .cooperation-name{
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 5px;
+}
+
+.cooperation-item .item-logo .cooperation-address{
+  font-size: 12px;
+}
+
+/*.cooperation-item .item-images .image{*/
+  /*float: right;*/
+/*}*/
+
+.cooperation-item .item-images .image-header{
+  width: 187px;
+  height:146px;
+  margin-left: 18px;
+  border: 1px solid #ccc;
+}
+
+.cooperation-item .item-images .image-header img{
+  height: 100%;
+  width: 100%;
+}
+
+.cooperation-item .item-images .image-description{
+  text-align: center;
+  font-size: 12px;
+  padding: 20px 0;
+}
+
+.cooperation-item .item-images .image{
+  position: relative;
+}
+.cooperation-item .item-images .image .product-operation{
+  display: none;
+  position: absolute;
+  top: 115px;
+  left: 25px;
+}
+
+.cooperation-item .item-images .image:hover .product-operation {
+  display: block!important;
+}
+
+.cooperation-item .item-images .image:hover .product-img-container img{
+  transform: scale(1.4);
+}
+.cooperation-item .item-images .image .product-operation a {
+  display: inline-block;
+  background: #e2e2e2;
+  width: 25px;
+  height: 25px;
+  text-align: center;
+  line-height: 25px;
+  border-radius: 4px;
+
+}
+.cooperation-item .item-images .image .product-operation a:hover {
+  background: #1fc17d;
+}
+.cooperation-item .item-images .image .product-operation a:hover span {
+  color: #fff;
+}
+.cooperation-item .item-images .image .product-operation a span {
+  font-weight: bold;
+}
+.cooperation-item .item-images .image .product-operation a.active {
+  background: #1fc17d;
+}
+.cooperation-item .item-images .image .product-operation a.active span{
+  color: #fff;
+}
+
+.cooperation-item .item-images .image .product-operation a:nth-child(3){
+  display: none;
+}
+.cooperation-item .item-images .image .product-operation a:nth-child(4){
+  display: none;
+}

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- 页面meta -->
+    <meta charset="utf-8">
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <!-- 引入组件库 -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <!-- 引入组件库 -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="../js/jquery-2.1.1.min.js"></script>
+    <script src="https://cdn.bootcss.com/qs/6.7.0/qs.min.js"></script>
+
+    <script src="../js/plugins/zTree/jquery.ztree.all-3.5.min.js"></script>
+    <link rel="stylesheet" href="../js/plugins/zTree/css/metro.css ">
+    <link rel="stylesheet" href="../js/plugins/zTree/css/metro.css">
+</head>
+<style>
+    .el-header{
+        background-color: #E9EEF3;
+        color: #333;
+        text-align: center;
+        line-height: 60px;
+    }
+
+    .el-main {
+        color: #333;
+        text-align: center;
+        line-height: 160px;
+    }
+    body > .el-container {
+        margin-bottom: 40px;
+    }
+    .el-row {
+        margin-bottom: 20px;
+        line-height: 40px;
+    }
+    .el-col {
+        border-radius: 4px;
+    }
+</style>
+<body style="background-color: white">
+<div id="addpara">
+<el-container>
+    <el-header>
+        <div>
+            <h3 style="margin-top: 0px">添加参数</h3>
+        </div>
+    </el-header>
+    <el-main>
+        <div>
+            <el-row>
+                <el-col :span="12"><div style="float: right;margin-right: 100px">参数名称：</div></el-col>
+                <el-col :span="12"><div style="float: left;"><el-input style="width: 400px" v-model="parameter.paraName" placeholder="请输入内容"></el-input></div></el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="12"><div style="float: right;margin-right: 100px">能否进行检索：</div></el-col>
+                <el-col :span="12"><div style="float: left;">
+                    <el-radio v-model="parameter.paraSearch" label="1">不需要检索</el-radio>
+                    <el-radio v-model="parameter.paraSearch" label="2">关键字检索</el-radio>
+                    <el-radio v-model="parameter.paraSearch" label="3">范围检索</el-radio>
+                </div></el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="12"><div style="float: right;margin-right: 100px">相同参数值的商品是否关联：</div></el-col>
+                <el-col :span="12"><div style="float: left;">
+                    <el-radio v-model="parameter.paraRelated" label="4">是</el-radio>
+                    <el-radio v-model="parameter.paraRelated" label="5">否</el-radio>
+                </div></el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="12"><div style="float: right;margin-right: 100px">参数录入方式：</div></el-col>
+                <el-col :span="12"><div style="float: left;">
+                    <el-checkbox v-model="parameter.paratheway" label="city" key="city">手动录入</el-checkbox>
+                    <el-checkbox v-model="parameter.paratheways" label="2">多选参数</el-checkbox>
+                    <el-checkbox v-model="parameter.parathewayv" label="3">单选参数</el-checkbox>
+                </div></el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="12"><div style="float: right;margin-right: 100px">参数列表</div></el-col>
+                <el-col :span="12"><div style="float: left;">
+                    <el-input type="textarea" :rows="4"
+                              placeholder="不可为空5-300字以内，商品介绍也可以作为供应商发布商品关键字搜索引擎"
+                              style="width: 400px;" v-model="parameter.paraColumn"></el-input>
+                </div></el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="12"><div style="float: right;margin-right: 100px">参数排序：</div></el-col>
+                <el-col :span="12"><div style="float: left;">
+                    <el-input placeholder="请输入内容" v-model="parameter.paraSort" style="width: 400px"></el-input>
+                </div></el-col>
+            </el-row>
+            <el-button type="primary" @click="querySub()">提交参数</el-button>
+        </div>
+    </el-main>
+</el-container>
+</div>
+</body>
+<script rel="script" src="../js/vueJs/Utils.js?v=25"></script>
+<script rel="script" src="../js/vueJs/addPara.js?v=9"></script>
+</html>

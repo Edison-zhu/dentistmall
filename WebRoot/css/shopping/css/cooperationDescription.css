@@ -1,0 +1,179 @@
+/*bread-crumb*/
+.bread-crumb{
+  padding-left: 10px;
+  height: 58px;
+  line-height: 58px;
+}
+
+.bread-crumb label:before{
+  content: '/';
+  margin: 0 5px;
+}
+
+.content{
+  min-height: 500px;
+}
+
+.section-title {
+  width: 100%;
+  height:35px;
+  background: url("../images/section-header.png") repeat-x top center;
+  position: relative;
+  margin: 10px 0;
+}
+.section-title .section-title-info {
+  line-height: 35px;
+  color: #fff;
+  width:180px;
+  background: #fff;
+  transform: skewX(-30deg);
+  margin-left: 15px;
+  text-align: center;
+}
+.section-title .section-title-info > span  {
+  display: block;
+  transform: skewX(30deg);
+  font-size: 26px;
+  /*font-weight: bold;*/
+  color: #155898;
+  letter-spacing: 2px;
+}
+
+.cooperation-description{
+  margin-bottom: 50px;
+  display: flex;
+}
+
+.description-left{
+  width: 208px;
+}
+
+.description-left img{
+  width: 100%;
+  height: 100%;
+}
+
+.description-left .cooperation-logo{
+  width: 208px;
+  height: 65px;
+}
+
+.description-left .cooperation-title{
+  width: 208px;
+  height: 40px;
+}
+
+.description-left .cooperation-info{
+  height: 135px;
+  background-color: #f3f3f3;
+}
+
+.description-left strong{
+  color: #333333;
+}
+
+.description-left .cooperation-info p{
+  height: 30px;
+  line-height: 35px;
+  color: #8e8e8e;
+  padding-left: 10px;
+  font-size: 12px;
+}
+
+.description-right{
+  padding: 10px;
+  max-height: 260px;
+}
+
+.description-right .description-title{
+  font-size: 18px;
+  font-weight: 700;
+  margin: 10px 0;
+  color: #333333;
+}
+
+.description-right .description-content{
+  line-height: 20px;
+  text-align: justify;
+  color: #333333;
+}
+
+.cooperation-products{
+  margin-bottom: 50px;
+}
+
+.clear-fix{
+  clear: both;
+}
+
+.product-lists {
+  padding-left: 10px;
+}
+
+.cooperation-products .product-category{
+  float: left;
+  width: 208px;
+  min-height: 325px;
+  background-color: #f1f1f1;
+  border: 1px solid #dedfe0;
+  margin: 5px 0;
+}
+
+.cooperation-products .product-category .active{
+  color: #22c079;
+}
+
+.cooperation-products .product-category li{
+  cursor: pointer;
+}
+
+.li-level-1{
+  background-color: #f3f3f5;
+  border-bottom: 1px solid #dedfe0;
+}
+
+.li-level-1 .icon-square:before{
+  font-size: 18px;
+  margin-right: 5px;
+  position: relative;
+  top: 3px;
+}
+
+.p-level-1{
+  color: #848484;
+  height: 40px;
+  line-height: 40px;
+  padding-left: 10px;
+}
+
+.li-level-2{
+  background-color: #e7e7e7;
+  border-bottom: 1px solid #dedfe0;
+}
+
+.p-level-2{
+  color: #848484;
+  height: 30px;
+  line-height: 30px;
+  padding-left: 30px;
+}
+
+.li-level-3{
+  display: block;
+  width:100%;
+  background-color: #f3f3f5;
+}
+
+.p-level-3{
+  color: #848484;
+  height: 25px;
+  line-height: 25px;
+  padding-left: 30px;
+}
+
+.ul-level-2{
+  display: none;
+}
+.ul-level-3{
+  display: none;
+}

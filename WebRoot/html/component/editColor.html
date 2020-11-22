@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- 页面meta -->
+    <meta charset="utf-8">
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <!-- 引入组件库 -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <!-- 引入组件库 -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.bootcss.com/qs/6.7.0/qs.min.js"></script>
+
+</head>
+<body style="background-color: white">
+<style>
+    .head {
+        border-right: 1px solid #eeeeee;
+        border-left: 1px solid #eeeeee
+    }
+
+    .headerDiv {
+        line-height: 50px;
+        height: 50px;
+        width: auto;
+        background-color: #eeeeee;
+        border-top: 1px solid #eaeaea;
+        border-bottom: 1px solid #eaeaea;
+    }
+
+    .headerDiv2 {
+        word-spacing: 50px;
+        padding: 5px 0px 15px 0px;
+        border-top: 1px solid #eaeaea;
+        border-bottom: 1px solid #eaeaea;
+    }
+
+    .demoInput {
+        display: inline-block;
+        margin-top: 5px;
+    }
+
+    .el-header {
+        padding: 0 0 0 0;
+    }
+    .el-drawer.rtl {
+        overflow: scroll;
+    }
+    :focus {
+        outline: 0;
+    }
+    .el-drawer__body {
+        margin-top: -40px;
+    }
+</style>
+<!-- =============>品牌管理页面-->
+<div id="para">
+    <el-container>
+        <el-header style="height: auto">
+
+            <div class="head">
+                <div class="headerDiv">
+                    <el-button type="primary" style="float: right;margin: 5px 10px auto;" icon="el-icon-refresh-left"
+                               @click="refish()">刷新
+                    </el-button>
+                    <el-button type="primary" style="float: right;margin: 5px 10px auto;" icon="el-icon-circle-plus"
+                               @click="drawers = true">添加颜色
+                    </el-button>
+                </div>
+                <div class="headerDiv2">
+                    <div class="demoInput">
+                        输入搜索:
+                        <el-input v-model="queryFrom.brand" placeholder="名称或者名称关键字" style="width: 250px"></el-input>
+                        是否启用:
+                        <el-select placeholder="请选择" style="width: 250px" v-model="queryFrom.showIndex">
+                            <el-option
+                                    v-for="item in options"
+                                    :key="item.value"
+                                    :label="item.label"
+                                    :value="item.value">
+                            </el-option>
+                        </el-select>
+<!--                        属性值:-->
+<!--                        <el-select placeholder="请选择" style="width: 250px" v-model="queryFrom.attr">-->
+<!--                            <el-option-->
+<!--                                    v-for="item in optionses"-->
+<!--                                    :key="item.value"-->
+<!--                                    :label="item.label"-->
+<!--                                    :value="item.value">-->
+<!--                            </el-option>-->
+<!--                        </el-select>-->
+                        <el-button type="primary" icon="el-icon-search"  plain
+                                   round size="small" @click="Clickquery()">点击查询
+                        </el-button>
+                    </div>
+                </div>
+            </div>
+
+        </el-header>
+        <el-main>
+            <div>
+                <el-button type="danger" @click="deleteColors()">批量删除</el-button>
+                <el-table
+
+                        @selection-change="handleSelectionChange"
+                        v-loading="loading"
+                        element-loading-text="拼命加载中"
+                        :data="tableData" border style="width: 100%" ref="multipleTable">
+                    <el-table-column type="selection" width="55" align="center"></el-table-column>
+                    <el-table-column prop="mmamxCode" label="编号" width="180" align="center"></el-table-column>
+                    <el-table-column prop="mmamxName" label="颜色名称" width="180" align="center"></el-table-column>
+                    <el-table-column prop="attribute" label="色值" align="center"></el-table-column>
+                    <el-table-column prop="attribute" label="图标" align="center">
+                        <template slot-scope="scope">
+                            <el-color-picker :disabled="true" v-model="scope.row.attribute"></el-color-picker>
+                        </template>
+                    </el-table-column>
+                    <el-table-column prop="state" label="是否启用" align="center" :formatter="stateFor"></el-table-column>
+                    <el-table-column prop="" label="操作" align="center">
+                        <template slot-scope="scope">
+                            <el-button
+                                    @click="deleteColor(scope.row)"
+                                    type="text"
+                                    size="small">
+                                删除
+                            </el-button>
+                            <el-button
+                                    @click="editColor(scope.row)"
+                                    type="text"
+                                    size="small">
+                                编辑
+                            </el-button>
+                        </template>
+                    </el-table-column>
+                </el-table>
+                <el-pagination
+                        style="float: right"
+                        @size-change="handleSizeChange"
+                        @current-change="handleCurrentChange"
+                        :current-page="currentPage"
+                        :page-sizes="[10, 20, 50, 100]"
+                        :page-size="pageSize"
+                        layout="total, sizes, prev, pager, next, jumper"
+                        :total="total">
+                </el-pagination>
+            </div>
+        </el-main>
+    </el-container>
+    <el-drawer :visible.sync="drawers" size="80%">
+        <div>
+            <el-container>
+                <el-main>
+                    <div style="text-align: center">
+                        <el-row style="background-color: #4ea0ae;margin-top: 10px;border-radius:5px">
+                            <el-col :span="24">
+                                <div>
+                                    <h3 style="color: white;text-align: center">编辑颜色信息</h3>
+                                </div>
+                            </el-col>
+                        </el-row>
+                        <el-row>
+                            <el-col :span="24">
+                                <div style="float: none;margin-top: 10px">颜色名称：
+                                    <el-input style="width: 400px" v-model="parameter.paraName" placeholder="请输入内容"></el-input>
+                                </div>
+                            </el-col>
+                        </el-row>
+                        <el-row>
+                            <el-col :span="24">
+                            </el-col>
+                        </el-row>
+
+                        <el-row style="margin-top: 10px">
+                            <el-col :span="24">
+                                <div style="float: none;margin-top: 10px">色值：
+                                    <el-input style="width: 400px" v-model="parameter.paraRelated" placeholder="请从下方图标中选择"></el-input>
+                                </div>
+                            </el-col>
+                        </el-row>
+
+                        <el-row style="margin-top: 10px">
+                            <el-col :span="24">
+                                <div style="float: none">
+                            <span>
+                                是否可用:
+                            </span>
+                                    <el-radio v-model="parameter.parathewayv" label="1">可用</el-radio>
+                                    <el-radio v-model="parameter.parathewayv" label="2">不可用</el-radio>
+                                </div>
+                            </el-col>
+                        </el-row>
+
+                        <el-row style="margin-top: 10px">
+                            <el-col :span="24">
+                                <span>颜色图标：</span>
+                                <div class="block">
+                                    <el-color-picker v-model="parameter.paraRelated" @change="colorChange()"></el-color-picker>
+                                </div>
+                            </el-col>
+                        </el-row>
+                        <div style="margin-top: 20px">
+                            <el-button type="success" @click="subColor()">确认提交</el-button>
+                            <el-button type="success" @click="drawers = false">返回</el-button>
+                        </div>
+
+                    </div>
+
+
+                </el-main>
+
+            </el-container>
+        </div>
+    </el-drawer>
+    <!-- Form -->
+    <el-dialog title="编辑颜色属性" :visible.sync="dialogFormVisible">
+        <div style="display: flex;justify-content: center">
+            <el-form :model="form" >
+                <el-form-item label="颜色名称">
+                    <el-input v-model="form.name" autocomplete="off" style="width: 250px"></el-input>
+                </el-form-item>
+                <el-form-item label="色值">
+                    <el-input v-model="form.region" autocomplete="off" style="width: 250px"></el-input>
+                </el-form-item>
+                <el-form-item label="颜色图标">
+                    <div class="block">
+                        <el-color-picker v-model="form.region"></el-color-picker>
+                    </div>
+                </el-form-item>
+                <el-form-item label="是否可用">
+                    <el-radio v-model="form.date2" label="1">可用</el-radio>
+                    <el-radio v-model="form.date2" label="2">不可用</el-radio>
+                </el-form-item>
+
+            </el-form>
+        </div>
+
+        <div slot="footer" class="dialog-footer">
+            <el-button @click="dialogFormVisible = false">取 消</el-button>
+            <el-button type="primary" @click="edits()">确 定</el-button>
+        </div>
+    </el-dialog>
+</div>
+</body>
+<script rel="script" src="../../js/vueJs/Utils.js?v=25"></script>
+<script rel="script" src="../../js/vueJs/editColor.js?v=28"></script>
+</html>

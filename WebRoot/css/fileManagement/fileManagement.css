@@ -1,0 +1,812 @@
+body {
+    background: #ffffff;
+}
+
+.clear {
+    clear: both;
+}
+
+/*头部标题*/
+.blue_btn {
+
+}
+
+.white_btn {
+    width: 130px;
+    height: 27px;
+    background: #fff;
+    border-radius: 5px;
+    border: 1px solid #1ab394;
+    text-align: center;
+    line-height: 27px;
+    color: #1ab394;
+    margin-left: 30px;
+    font-size: 14px;
+    font-weight: normal;
+    cursor: pointer;
+}
+
+.green_btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 130px;
+    height: 34px;
+    border: 1px solid #1ab394;
+    background-color: #1ab394;
+    font-size: 14px;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.grey_btn {
+
+}
+
+.d_flex_between {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.d_flex_around {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.d_flex_left {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.d_flex_right {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.toptit {
+    margin: 10px 20px 15px 20px;
+    border-top: 4px solid #e7eaec;
+    background: #FCFCFC;
+    padding: 20px 20px;
+}
+
+.toptit .tit {
+    font-weight: bold;
+    font-size: 18px;
+    color: #333333;
+}
+
+.toptit .tit i {
+    margin-right: 5px;
+    color: #666666;
+}
+
+.public_box {
+    margin: 10px 20px 15px 20px;
+    border: 1px solid #e7eaec;
+    background: #ffffff;
+
+}
+
+.public_box .tpbox {
+    background: #f2f2f2;
+    border-bottom: 1px solid rgba(228, 228, 228, 1);
+    padding: 0 20px;
+    height: 50px;
+}
+
+.public_box .ftbox {
+    padding: 10px 20px;
+}
+
+.public_box2 {
+    margin: 10px 20px 15px 20px;
+}
+
+.public_box2 .tpbox {
+    background: #f2f2f2;
+    border: 1px solid rgba(228, 228, 228, 1);
+    padding: 0 20px;
+    height: 50px;
+}
+
+.public_box2 .ftbox {
+    width: 100%;
+}
+
+.lf_input_box {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.lf_input_box span {
+    display: inline-block;
+    width: 80px;
+}
+
+.lf_input_box input {
+    width: 280px;
+    height: 34px;
+    line-height: 34px;
+}
+
+.mmGrid {
+    width: 100%;
+}
+
+.addfileform {
+    display: none;
+    padding: 50px 50px 50px 45px
+}
+
+.addfileform .nameline {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+
+}
+
+.addfileform .descline {
+    display: flex;
+    justify-content: flex-start;
+    align-content: flex-start;
+    margin-top: 40px;
+}
+.addfileform .descline2 {
+    display: flex;
+    justify-content: flex-start;
+    align-content: flex-start;
+}
+
+.addfileform .btnline {
+    margin-top: 40px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding-left: 90px;
+}
+.addfileform .btnline2 {
+    margin-top: 40px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding-right: 40px;
+}
+
+.addfileform .btn {
+    width: 100px;
+    height: 35px;
+    border-radius: 5px;
+    background: #1ab394;
+    color: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 20px;
+}
+
+.addfileform label {
+    width: 100px;
+    text-align: right;
+    font-weight: normal;
+    font-size: 16px;
+    margin-right: 10px;
+}
+
+.addfileform label span {
+    color: red;
+}
+
+.addfileform input {
+    width: 285px;
+    line-height: 35px;
+    padding: 0 5px;
+    border: 1px solid #e5e6e7;
+}
+
+.addfileform textarea {
+    padding: 5px;
+    border: 1px solid #e5e6e7;
+    width: 430px;
+    height: 180px;
+}
+
+
+input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
+    color: #999999;
+}
+
+input:-moz-placeholder, textarea:-moz-placeholder {
+    color: #999999;
+}
+
+input::-moz-placeholder, textarea::-moz-placeholder {
+    color: #999999;
+}
+
+input:-ms-input-placeholder, textarea:-ms-input-placeholder {
+    color: #999999;
+}
+
+/*上传图片*/
+.file_upload_box {
+    display: none;
+    padding: 50px 0px 10px 0px
+}
+
+.file_upload_lnbox {
+    padding-left: 100px;
+    padding-right: 150px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: 50px;
+    position: relative;
+}
+
+.file_upload_lf {
+    width: 100px;
+    text-align: right;
+}
+
+.file_upload_rt1 {
+    width: 330px;
+    height: 45px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.file_upload_rt1 select {
+    width: 300px;
+    height: 45px;
+    border: 1px solid rgb(228, 228, 228);
+}
+
+.file_upload_rt2 {
+    width: 200px;
+    height: 45px;
+    border: 1px solid rgb(228, 228, 228);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.file_upload_btnbox {
+    border-top: 1px solid rgb(228, 228, 228);
+    padding: 25px 40px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.file_upload_btn_cancel {
+    width: 100px;
+    height: 45px;
+    border: 1px solid #1ab394;
+    background: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #1ab394;
+    border-radius: 3px;
+    margin-right: 40px;
+}
+
+.file_upload_btn_submit {
+    width: 100px;
+    height: 45px;
+    border: 1px solid #1ab394;
+    background: #1ab394;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #ffffff;
+    border-radius: 3px;
+}
+
+.file_upload_tps {
+    position: absolute;
+    top: 55px;
+    left: 205px;
+    font-size: 12px;
+    color: #666666;
+}
+
+.imgClick {
+    display: block;
+}
+
+.countbox {
+    margin: 0px 20px 15px 20px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.countboxitem {
+    width: 170px;
+    height: 40px;
+    border: 1px solid rgb(228, 228, 228);
+    background: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: rgb(102, 102, 102);
+    margin-right: 30px;
+    cursor: pointer;
+}
+
+.countboxitem span {
+    color: rgb(240, 72, 68);
+}
+
+.countboxitem:hover {
+    color: #1ABC9C;
+}
+
+.countboxitem:hover span {
+    color: #1ABC9C;
+}
+
+.countboxitemon {
+    width: 170px;
+    height: 40px;
+    border: 1px solid #1ABC9C;
+    background: #1ABC9C;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #ffffff;
+    margin-right: 30px;
+    cursor: pointer;
+}
+
+.countboxitemon span {
+    color: #ffffff;
+}
+
+.countboxitemon:hover {
+    color: #ffffff;
+}
+
+.countboxitemon:hover span {
+    color: #ffffff;
+}
+
+.awards-imgsss .imgul li .add,
+.awards-imgsss .imgul li:hover .imgdel {
+    background: url(../img/sprite-new.png) 999px 999px no-repeat;
+}
+
+.awards-imgsss .imgul {
+
+}
+
+.awards-imgsss .imgul li {
+    width: 180px;
+    height: 45px;
+    float: left;
+    position: relative;
+    list-style: none;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.awards-imgsss .imgul .one {
+    width: 180px;
+    height: 45px;
+    float: left;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    position: relative;
+    list-style: none;
+    text-align: center;
+}
+
+.awards-imgsss .imgul .one img {
+    width: 200px;
+    height: 45px;
+}
+
+.awards-imgsss .imgul .one .butyfile {
+    filter: alpha(opacity=0);
+    -moz-opacity: 0;
+    -khtml-opacity: 0;
+    opacity: 0;
+    width: 180px;
+    height: 45px;
+    position: absolute;
+    top: 0;
+    left: 60px;
+    cursor: pointer;
+}
+
+.awards-imgsss .imgul li img {
+    width: 90px;
+    height: 90px;
+}
+
+.awards-imgsss .imgul li .add {
+    width: 35px;
+    height: 35px;
+    margin-top: 27px;
+    margin-left: 29px;
+    background-position: 0px -424px;
+}
+
+.awards-imgsss .imgul li .butyfile {
+    filter: alpha(opacity=0);
+    -moz-opacity: 0;
+    -khtml-opacity: 0;
+    opacity: 0;
+    width: 180px;
+    height: 45px;
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    cursor: pointer;
+}
+
+.awards-imgsss .imgul li:hover .imgdel {
+    position: absolute;
+    margin: 0;
+    top: 0;
+    right: 0;
+    width: 20px;
+    height: 20px;
+    background-position: 0px -500px;
+}
+
+.file_list_box {
+    border: 1px solid rgb(228, 228, 228);
+    margin-top: 15px;
+}
+
+.file_list_box_tpln {
+    height: 45px;
+    background: #FCFCFC;
+    border-bottom: 1px solid rgb(228, 228, 228);
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding-left: 30px;
+}
+
+.file_list_box_tpln div {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-right: 30px;
+    cursor: pointer;
+}
+
+.file_list_box_tpln div:hover {
+    color: rgb(26, 179, 148);
+}
+
+
+.file_list_box input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 18px;
+    position: relative;
+    margin: 0px 0 0;
+    margin-right: 10px;
+}
+
+.file_list_box input[type="checkbox"]::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: #fff;
+    width: 100%;
+    height: 100%;
+    border: 1px solid #d9d9d9;
+    border-radius: 4px;
+}
+
+.file_list_box input[type="checkbox"]:checked::before {
+    content: "\2713";
+    background-color: #fff;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    border: 1px solid rgb(26, 179, 148);
+    border-radius: 4px;
+    color: rgb(26, 179, 148);
+    font-size: 16px;
+    font-weight: normal;
+}
+
+
+.file_list_box_ftln {
+    width: 100%;
+    height: 55px;
+    background: #FCFCFC;
+    border-top: 1px solid rgb(228, 228, 228);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.file_list_box_ftln .lfbox {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding-left: 30px;
+}
+
+.file_list_box_ftln .lfbox div {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-right: 30px;
+    cursor: pointer;
+}
+
+.file_list_box_ftln .lfbox div:hover {
+    color: rgb(26, 179, 148);
+}
+
+.file_list_box_ftln .rtbox {
+    padding-right: 30px;
+    font-size: 12px;
+    display: flex;
+    align-items: center
+}
+
+
+.file_list_ul {
+    padding: 20px 30px;
+}
+
+.file_list_ul li {
+    width: 220px;
+    height: 321px;
+    border: 1px solid rgb(228, 228, 228);
+    margin: 5px;
+    float: left;
+}
+
+.file_list_ul li .img {
+    width: 210px;
+    height: 230px;
+    margin: 5px;
+}
+
+.file_list_ul li .img img {
+    width: 100%;
+    height: 100%;
+}
+
+.file_list_ul li .sizeln {
+    text-align: center;
+    color: #999999;
+    font-size: 12px;
+    margin: 10px 0 20px 0;
+}
+
+.file_list_ul li .btnbox {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 40px;
+    background: #FCFCFC;
+    border-top: 1px solid rgb(228, 228, 228);
+}
+
+.file_list_ul li .btnbox input {
+    margin-left: 10px;
+}
+
+.file_list_ul li .btnbox .btntext {
+    font-size: 14px;
+    color: #1ab394;
+    margin-right: 20px;
+    cursor: pointer;
+}
+.ssbrand{
+    background-color: #FFFFFF;
+    border-radius: 1px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 5px;
+    width: 180px;
+    height: 34px;
+    border: 1px solid #e5e6e7;
+    cursor: pointer;
+}
+.ssbrand span{
+    display: block;
+    width: 155px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    word-break: break-all;
+    font-size: 14px;
+    color: #999999;
+}
+.ssbrand #applicantName{
+    font-size: 14px !important;
+}
+.ssbrand img{
+    width: 9px;
+    height: auto;
+}
+.form-inline{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+.form-inline label{
+    font-weight: normal;
+    color: #333333;
+}
+.form-inline input{
+
+}
+.form-inline select{
+    color: #999999;
+}
+.brandBox{
+    display: none;
+}
+.brandBox .letterbox{
+    margin: 0 30px;
+    border-bottom: 1px solid #e5e6e7;
+    line-height: 50px;
+}
+.brandBox .letterbox a{
+color: #666666;
+    display: inline-block;
+    margin-right: 5px;
+}
+.brandBox .letterbox a:hover{
+    color: #1ABC9C;
+}
+.brandBox .inputbox{
+    /*display: flex;*/
+    /*justify-content: flex-start;*/
+    /*align-items: center;*/
+    margin: 10px 30px;
+}
+.brandBox .inputbox input{
+    width: 200px;
+    font-size: 13px;
+    float: left;
+}
+.brandBox .inputbox .ssicon{
+    float: left;
+    width: 40px;
+    height: 34px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background:#e5e6e7 ;
+    border-top-right-radius: 1px;
+    border-bottom-right-radius: 1px;
+    margin-right: 20px;
+    cursor: pointer;
+}
+.brandBox .inputbox .text1{
+    float: left;
+    display: block;
+    height: 34px;
+    line-height: 34px;
+    font-size: 13px;
+    color: #999999;
+
+}
+.brandBox .inputbox .text2{
+    float: left;
+    display: block;
+    line-height: 34px;
+    font-size: 13px;
+    color: #666666;
+    margin-right: 10px;
+}
+.brandBox .inputbox .text3{
+    float: left;
+    display: block;
+    height: 34px;
+    line-height: 34px;
+    font-size: 13px;
+    color: #1ABC9C;
+    cursor: pointer;
+}
+.brandBox .brandLlistitem{
+    margin: 0px 30px;
+    height: 300px;
+    overflow: auto;
+}
+.brandBox .brandLlistitem .zimu{
+    text-align: left;
+    font-size: 14px;
+    font-weight: bold;
+    color: #999999;
+}
+.brandBox .brandLlistitem .blist{
+
+}
+.brandBox .brandLlistitem .blist ul{
+
+}
+.brandBox .brandLlistitem .blist ul li{
+    float: left;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 130px;
+    height: 35px;
+    background: #ffffff;
+    border: 1px solid #ffffff;
+    margin-right: 10px;
+    padding: 0 5px;
+    margin-bottom: 5px;
+    cursor: pointer;
+}
+.brandBox .brandLlistitem .blist ul li:hover{
+    background: #f2f2f2;
+    border: 1px solid #f2f2f2;
+}
+.brandBox .brandLlistitem .blist ul .lion{
+    background: #ffffff;
+    border: 1px solid #1ABC9C;
+    color: #1ABC9C;
+}
+.brandBox .brandLlistitem .blist ul li span{
+    width: 100px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    word-break: break-all;
+}
+.brandBox .brandLlistitem .blist ul li input{
+    margin-right: 5px;
+}
+.spglftbox{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-top: -30px;
+    padding-left: 10px;
+    margin-bottom: 10px;
+}
+.spglftbox .btna{
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+.spglftbox .btna input{
+    margin: 0px 0 0;
+    margin-right: 3px;
+}
+.spglftbox .btnb{
+    margin-left: 20px;
+    cursor: pointer;
+}
+
+
+
+
+
+
+

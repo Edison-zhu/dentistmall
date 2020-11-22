@@ -1,0 +1,78 @@
+.order-info {
+    display: flex;
+    height: 98px;
+    border-top: 1px solid #ddd;
+}
+.order-info .left{
+    flex: 1;
+}
+.order-info .left input {
+    position: relative;
+    top: -15px;
+    margin: 0 10px 0 32px;
+}
+.order-info .left img {
+    position: relative;
+    top: 15px;
+    left: 25px;
+    vertical-align:top;
+}
+.order-info .left ul {
+    display: inline-block;
+    line-height: 30px;
+    margin-left: 70px;
+}
+.order-info .right {
+    flex: 1;
+    display: flex;
+}
+.order-info .right div {
+    display: inline-block;
+    flex: 1;
+    line-height: 98px;
+    text-align: center;
+}
+.order-info .right .money {
+    line-height: 98px;
+}
+
+.order-info .right .number span {
+    margin-left: -10px;
+}
+.order-info .right .number span a {
+    width: 15px;
+    display: inline-block;
+    height: 19px;
+    background-color: #ddd;
+    position: relative;
+    top: 1px;
+    line-height: 20px;
+    text-align: center;
+}
+.order-info .right .number span .a-left{
+    margin-right: -5px
+}
+.order-info .right .number span .a-right{
+    margin-left: -5px
+}
+.order-info .right .number span input{
+    width: 25px;
+    text-align: center;
+    color: #666;
+    border: 1px solid #ddd;
+    outline: 0;
+    background: #FFF;
+}
+.order-info .right .operation {
+    position: relative;
+}
+.order-info .right .operation p:first-child {
+    position: absolute;
+    top: -30px;
+    cursor: pointer;
+}
+.order-info .right .operation p:last-child {
+    position: absolute;
+    top: 0;
+    cursor: pointer;
+}

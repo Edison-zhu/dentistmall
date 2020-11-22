@@ -1,0 +1,223 @@
+ .order1 {
+    /*width: 1040px;*/
+    margin: 0 auto;
+    margin-top: 20px;
+    border: 1px solid #ddd;
+    margin-bottom: 20px;
+}
+ .order1 .order-header {
+    height: 40px;
+    line-height: 40px;
+    background-color: #f9f9f9;
+}
+ .order1 .order-header input {
+    position: relative;
+    top: 2px;
+    margin: 0 10px 0 32px;
+}
+ .order1 .order-header span {
+    margin-right: 10px;
+}
+ .order1 .order-header a.trigger {
+    background-color: #ffffff;
+    border: 1px solid #dddddd;
+    padding:5px;
+    margin-left:5px;
+    width:50px;
+    border-radius: 3px;
+    cursor: pointer;
+}
+ .order1 .order-header .sale {
+    display: inline-block;
+    float: right;
+    margin-right: 20px;
+}
+ .order1 .order-body table tr {
+     /*min-height: 98px;*/
+     vertical-align: top;
+ }
+ .order1 .order-body table .td-text-align {
+     text-align: center;
+ }
+ .order1 .order-body table .rigth-td {
+     border-top: 1px solid #ddd;
+     border-left: 1px solid #ddd;vertical-align: top
+ }
+ .order1 .order-body .order-info {
+    /*display: flex;*/
+    height: 98px;
+    border-top: 1px solid #ddd;
+}
+ .order1 .order-body .order-info .left{
+    /*flex: 1;*/
+}
+ .order1 .order-body .order-info .left2{
+    width:480px
+}
+ .order1 .order-body .order-info .left input {
+    position: relative;
+    top: -15px;
+    margin: 0 10px 0 32px;
+}
+ .order1 .order-body .order-info .left img {
+    position: relative;
+    top: 15px;
+    left: 15px;
+    vertical-align:top;
+}
+ .order1 .order-body .order-info .left ul {
+    display: inline-block;
+    line-height: 30px;
+    margin-left: 30px;
+}
+ .order1 .order-body .order-info .left2 input {
+    position: relative;
+    top: -15px;
+    margin: 0 10px 0 32px;
+}
+ .order1 .order-body .order-info .left2 img {
+    position: relative;
+    top: 15px;
+    left: 25px;
+}
+ .order1 .order-body .order-info .left2 ul {
+    display: inline-block;
+    line-height: 30px;
+    margin-left: 70px;
+}
+
+ .order1 .order-body table td .order-info .money {
+     /*display: inline-block;*/
+     /*width: 60px;*/
+     line-height: 98px;
+     width: 100%
+ }
+ .order1 .order-body table td .order-info .number{
+     /*margin-left: 24px;*/
+     line-height: 98px;
+     width: 100%
+ }
+
+ .order1 .order-body .order-info .right {
+    /*flex: 1;*/
+}
+ .order1 .order-body .order-info .right span {
+     display: inline-block;
+     text-align: center;
+     width: 10%;
+     line-height: 98px;
+ }
+ .order1 .order-body .order-info .right div {
+    display: inline-block;
+    width: 100%;
+    /*margin-left: 32px;*/
+    text-align:center
+}
+ .order1 .order-body .order-info .right2 div {
+    display: inline-block;
+    width: 75px;
+    margin-left: 10px;
+    text-align:center
+}
+ .order1 .order-body .right .money {
+     display: inline-block;
+     text-align: center;
+     line-height: 30px;
+}
+ .order1 .order-body .right .a {
+     text-decoration: underline;
+     color: blue;
+ }
+ .order1 .order-body .right .express {
+     display: inline-block;
+     text-align: center;
+     line-height: 30px;
+     font-size: 14px;
+     color: grey;
+ }
+
+ .order1 .order-body .order-info .right .number span {
+    margin-left: -10px;
+}
+ .order1 .order-body .order-info .right .number span a {
+    width: 15px;
+    display: inline-block;
+    height: 19px;
+    background-color: #ddd;
+    position: relative;
+    top: 1px;
+    line-height: 20px;
+    text-align: center;
+}
+ .order1 .order-body .order-info .right .number span .a-left{
+    margin-right: -5px
+}
+ .order1 .order-body .order-info .right .number span .a-right{
+    margin-left: -5px
+}
+ .order1 .order-body .order-info .right .number span input{
+    width: 25px;
+    text-align: center;
+    color: #666;
+    border: 1px solid #ddd;
+    outline: 0;
+    background: #FFF;
+}
+ .order1 .order-body .order-info .right .operation {
+    position: relative;
+}
+ .order1 .order-body .order-info .right .operation p:first-child {
+    position: absolute;
+    top: -30px;
+    cursor: pointer;
+}
+ .order1 .order-body .order-info .right .operation p:last-child {
+    position: absolute;
+    top: 0;
+    cursor: pointer;
+}
+
+ .order1 .order-body .order-info .right2 .money {
+    line-height: 85px;
+}
+
+ .order1 .order-body .order-info .right2 .number span {
+    margin-left: -10px;
+}
+ .order1 .order-body .order-info .right2 .number span a {
+    width: 15px;
+    display: inline-block;
+    height: 19px;
+    background-color: #ddd;
+    position: relative;
+    top: 1px;
+    line-height: 20px;
+    text-align: center;
+}
+ .order1 .order-body .order-info .right2 .number span .a-left{
+    margin-right: -5px
+}
+ .order1 .order-body .order-info .right2 .number span .a-right{
+    margin-left: -5px
+}
+ .order1 .order-body .order-info .right2 .number span input{
+    width: 25px;
+    text-align: center;
+    color: #666;
+    border: 1px solid #ddd;
+    outline: 0;
+    background: #FFF;
+}
+ .order1 .order-body .order-info .right2 .operation {
+    position: relative;
+}
+ .order1 .order-body .order-info .right2 .operation p:first-child {
+    position: absolute;
+    top: -30px;
+    cursor: pointer;
+}
+ .order1 .order-body .order-info .right2 .operation p:last-child {
+    position: absolute;
+    top: 0;
+    cursor: pointer;
+}
